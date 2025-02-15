@@ -6,7 +6,10 @@
 - [ ] Use elastic serverless cluster.
 - [ ] Add script to cleanup elastic if needed.
 - [ ] A bit of Python tooling (mainly formatting).
+- [ ] Telemetry with elastic + elastic dashboards for elastic prize
+- [ ] RAG agent
+- [ ] Make sure someone can build our project by following our README
 
-## Jason + Adrian
+## Jason
 
 - [ ] Pipeline Runner

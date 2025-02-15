@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from langgraph.graph import StateGraph
 from langgraph_supervisor import create_supervisor
 
-from agents.AgentRegistry import AgentRegistry
-from workflows.Workflow import StepState
+from src.agents.AgentRegistry import AgentRegistry
+from src.workflows.Workflow import StepState
 
 
 class GraphBuilder(BaseModel):
