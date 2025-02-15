@@ -1,3 +1,0 @@
-"""
-Google Calendar data ingestor
-"""

@@ -1,3 +1,0 @@
-"""
-Cronjobs for data ingestion
-"""
