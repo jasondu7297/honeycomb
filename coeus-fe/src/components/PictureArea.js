@@ -33,7 +33,7 @@ const styles = {
     transition: 'background 0.2s',
   },
   tabButtonActive: {
-    background: '#f7576f',
+    background: '#b94a53',
     color: '#000',
   },
 };

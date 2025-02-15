@@ -1,9 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const styles = {
   sidebar: {
     width: '250px',
+    height: '100vh',
     background: 'linear-gradient(180deg, #4e1655 50%, #0d080e 100%)',
     display: 'flex',
     flexDirection: 'column',
@@ -25,6 +26,7 @@ const styles = {
   },
   searchBox: {
     marginTop: 'auto',
+    alignItems: 'center',
   },
   searchInput: {
     width: '100%',
@@ -46,25 +48,37 @@ const styles = {
     animation: 'pulse 2s infinite',
     marginBottom: '30px',
   },
+  whiteText: {
+    color: '#fff',
+  },
 };
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Determine if the current location is the chat page.
+  const isChatPage = location.pathname === '/chat';
+
+  // Set the button's text and target route based on the current location.
+  const buttonText = isChatPage ? 'Back to Home' : 'Run a workflow';
+  const targetPath = isChatPage ? '/' : '/chat';
+
+  const handleToggleChat = () => {
+    navigate(targetPath);
+  };
 
   return (
     <div style={styles.sidebar}>
       <div style={styles.profileBox}>
         <div style={styles.profileImage}></div>
-        <h3>User Name</h3>
+        <h3 style={styles.whiteText}>User Name</h3>
       </div>
-      <div style={styles.searchBox}>
+      {/* <div style={styles.searchBox}>
         <input style={styles.searchInput} type="text" placeholder="Search" />
-      </div>
-      <button
-        style={styles.exploreButton}
-        onClick={() => navigate('/chat')}
-      >
-        Explore
+      </div> */}
+      <button style={styles.exploreButton} onClick={handleToggleChat}>
+        {buttonText}
       </button>
     </div>
   );
@@ -72,6 +86,7 @@ const Sidebar = () => {
 
 export default Sidebar;
 
+// Add keyframes for pulse animation
 const keyframes = `
   @keyframes pulse {
     0% {
