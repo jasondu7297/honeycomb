@@ -5,25 +5,26 @@ import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 // Custom node component to display checkpoint details.
-const CheckpointNode = ({ data }) => {
-  return (
-    <div
-      style={{
-        padding: '10px',
-        border: '1px solid #f5646d',
-        borderRadius: '8px',
-        backgroundColor: '#fff',
-        cursor: 'pointer'
-      }}
-    >
-      <strong>{data.label}</strong>
-      <div style={{ marginTop: '5px', fontSize: '0.85rem', color: '#333' }}>
-        <p><strong>Message:</strong> {data.message}</p>
-        <p><strong>Output:</strong> {data.output}</p>
-      </div>
-    </div>
-  );
-};
+// const CheckpointNode = ({ data }) => {
+//   return (
+//     <div
+//       style={{
+//         padding: '10px',
+//         border: '1px solid #f5646d',
+//         borderRadius: '8px',
+//         backgroundColor: '#4e1655',
+//         boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)',
+//         cursor: 'pointer'
+//       }}
+//     >
+//       <strong>{data.label}</strong>
+//       <div style={{ marginTop: '5px', fontSize: '0.85rem', color: '#333' }}>
+//         <p><strong>Message:</strong> {data.message}</p>
+//         <p><strong>Output:</strong> {data.output}</p>
+//       </div>
+//     </div>
+//   );
+// };
 
 const ChatInterface = () => {
   // Chat state
@@ -41,8 +42,8 @@ const ChatInterface = () => {
   // Dummy nodes and edges for the React Flow visualization.
   const [nodes, setNodes] = useState([
     { id: '1', data: { label: 'Start Checkpoint' }, position: { x: 0, y: 50 } },
-    { id: '2', data: { label: 'Checkpoint 1' }, position: { x: 250, y: 50 } },
-    { id: '3', data: { label: 'Checkpoint 2' }, position: { x: 500, y: 50 } }
+    { id: '2', data: { label: 'Checkpoint 1', message: 'Hello, how can I assist you today?', output: 'I can help you with your research?' }, position: { x: 250, y: 50 } },
+    { id: '3', data: { label: 'Checkpoint 2', message: 'Oh hello there', output: 'Kenobi?' }, position: { x: 500, y: 50 } }
   ]);
   const [edges, setEdges] = useState([
     { id: 'e1-2', source: '1', target: '2' },
@@ -86,7 +87,7 @@ const ChatInterface = () => {
     return `You said: "${userText}". This is a simulated response.`;
   };
 
-  // Modal component used for both the visualization and branch editing.
+  // // Modal component used for both the visualization and branch editing.
   const Modal = ({ onClose, children }) => (
     <div
       style={{
@@ -95,7 +96,7 @@ const ChatInterface = () => {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        background: 'rgba(0, 0, 0, 0.5)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -104,7 +105,7 @@ const ChatInterface = () => {
     >
       <div
         style={{
-          backgroundColor: '#fff',
+          backgroundColor: '#4e1655',
           padding: '20px',
           borderRadius: '8px',
           width: '80%',
@@ -224,12 +225,6 @@ const ChatInterface = () => {
     setSelectedCheckpoint(node);
   };
 
-  // Define custom node types.
-  const nodeTypes = {
-    checkpoint: CheckpointNode
-  };
-  
-
   // ----- STYLES -----
 
   // Outer container: flex row to hold sidebar and main content
@@ -252,6 +247,10 @@ const ChatInterface = () => {
   // Force the sidebar to be 250px wide
   const sidebarWrapperStyle = {
     width: '250px'
+  };
+
+  const whiteText = {
+    color: '#fff',
   };
 
   // Main container takes up the remaining space
@@ -381,7 +380,7 @@ const CustomNode = ({ data }) => {
       padding: '10px 20px',
       borderRadius: '12px',
       textAlign: 'center',
-      boxShadow: '0px 2px 5px rgba(0,0,0,0.2)',
+      boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)',
       minWidth: '100px'
     }}>
       {data.label}
@@ -389,7 +388,7 @@ const CustomNode = ({ data }) => {
   );
 };
 
-// const nodeTypes = { custom: CustomNode };
+const nodeTypes = { custom: CustomNode };
 
 // Ensure that each node in `nodes` has `type: 'custom'`
 const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
@@ -438,7 +437,7 @@ const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
             {/* Visualization Modal */}
             {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
-          <h2>Agentic AI Workflow Visualization</h2>
+          <h2 style={whiteText}>Agentic AI Workflow Visualization</h2>
           <ReactFlowProvider>
             <div style={{ width: '100%', height: '100%' }}>
               <ReactFlow
