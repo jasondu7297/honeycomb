@@ -2,6 +2,8 @@ import React from 'react';
 import ToolsGrid from './components/ToolsGrid';
 import Sidebar from './components/Sidebar';
 import PictureArea from './components/PictureArea';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ChatInterface from './components/ChatInterface';
 
 function App() {
   // Sample data to display in the Tools grid
@@ -34,24 +36,34 @@ function App() {
   const [activeTab, setActiveTab] = React.useState('tools');
 
   return (
-    <div style={styles.appContainer}>
-      {/* Sidebar */}
-      <Sidebar />
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div style={styles.appContainer}>
+              {/* Sidebar */}
+              <Sidebar />
 
-      {/* Main Content */}
-      <div style={styles.mainContent}>
-        {/* Picture Area */}
-        <PictureArea activeTab={activeTab} setActiveTab={setActiveTab} />
+              {/* Main Content */}
+              <div style={styles.mainContent}>
+                {/* Picture Area */}
+                <PictureArea activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* Tools or Data Grid */}
-        {activeTab === 'tools' ? (
-          <ToolsGrid tools={myTools} />
-        ) : (
-          <ToolsGrid tools={myTools} />
-        )}
-      </div>
-    </div>
+                {/* Tools or Data Grid */}
+                {activeTab === 'tools' ? (
+                  <ToolsGrid tools={myTools} />
+                ) : (
+                  <ToolsGrid tools={myTools} />
+                )}
+              </div>
+            </div>
+          }
+        />
+        <Route path="/chat" element={<ChatInterface />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

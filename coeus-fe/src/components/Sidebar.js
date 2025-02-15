@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
   sidebar: {
@@ -48,6 +49,8 @@ const styles = {
 };
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={styles.sidebar}>
       <div style={styles.profileBox}>
@@ -57,7 +60,12 @@ const Sidebar = () => {
       <div style={styles.searchBox}>
         <input style={styles.searchInput} type="text" placeholder="Search" />
       </div>
-      <button style={styles.exploreButton}>Explore</button>
+      <button
+        style={styles.exploreButton}
+        onClick={() => navigate('/chat')}
+      >
+        Explore
+      </button>
     </div>
   );
 };
