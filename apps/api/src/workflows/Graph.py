@@ -2,12 +2,15 @@ from pydantic import BaseModel
 from langgraph.graph import StateGraph
 from langgraph_supervisor import create_supervisor
 
-from src.agents.AgentRegistry import AgentRegistry
-from src.workflows.Workflow import StepState
+from agents.AgentRegistry import AgentRegistry
+from conf.ProjectConf import ProjectConf
+from utils.prompts import SUPERVISOR_PROMPT
 
+# Necessary for registering classes with AgentRegistry at import time
+from agents.GSearchAgent import GSearchAgent
 
 class GraphBuilder(BaseModel):
-    def build(self, model) -> StateGraph:
+    def build(self) -> StateGraph:
         # construct all nodes in the graph
         compiled_agents = []
         for agent_cls in AgentRegistry.get_agents():
@@ -16,8 +19,6 @@ class GraphBuilder(BaseModel):
         # build a supervisor workflow with all agents and supervisor prompt
         return create_supervisor(
             agents=compiled_agents,
-            prompt=self._supervisor_prompt,
-            model=model
+            prompt=SUPERVISOR_PROMPT,
+            model=ProjectConf.agent_llm
         )
-
-    _supervisor_prompt: str = '''what is my name?'''

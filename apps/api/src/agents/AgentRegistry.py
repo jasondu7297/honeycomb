@@ -1,6 +1,6 @@
 from typing import Type
 
-from src.agents.Agent import Agent
+from agents.Agent import Agent
 
 class AgentRegistry:
     # Class-level mapping of all agent string representation to agent class
