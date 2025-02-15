@@ -2,3 +2,6 @@ elasticsearch
 fastapi
 sentence_transformers
 uvicorn
+
+langgraph
+langgraph_supervisor
