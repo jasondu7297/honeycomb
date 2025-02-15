@@ -1,0 +1,4 @@
+elasticsearch
+fastapi
+sentence_transformers
+uvicorn
