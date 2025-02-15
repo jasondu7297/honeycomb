@@ -18,9 +18,9 @@ const styles = {
     marginBottom: '20px',
   },
   profileImage: {
-    width: '80px',
-    height: '80px',
-    borderRadius: '50%',
+    width: '90px',
+    height: '90px',
+    borderRadius: '30%',
     background: '#444',
     marginBottom: '10px',
   },
@@ -61,7 +61,7 @@ const Sidebar = () => {
   const isChatPage = location.pathname === '/chat';
 
   // Set the button's text and target route based on the current location.
-  const buttonText = isChatPage ? 'Back to Home' : 'Run a workflow';
+  const buttonText = isChatPage ? 'Back to Home' : 'Run a Workflow';
   const targetPath = isChatPage ? '/' : '/chat';
 
   const handleToggleChat = () => {
@@ -71,8 +71,12 @@ const Sidebar = () => {
   return (
     <div style={styles.sidebar}>
       <div style={styles.profileBox}>
-        <div style={styles.profileImage}></div>
-        <h3 style={styles.whiteText}>User Name</h3>
+          <img
+            src="/icons/cat_icon.png"
+            alt="User"
+            style={styles.profileImage}
+          />
+        <h3 style={styles.whiteText}>Good Kitty-Kitty</h3>
       </div>
       {/* <div style={styles.searchBox}>
         <input style={styles.searchInput} type="text" placeholder="Search" />

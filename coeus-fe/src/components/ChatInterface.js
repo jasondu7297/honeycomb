@@ -4,28 +4,6 @@ import CoeusHeader from './CoeusHeader';
 import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-// Custom node component to display checkpoint details.
-// const CheckpointNode = ({ data }) => {
-//   return (
-//     <div
-//       style={{
-//         padding: '10px',
-//         border: '1px solid #f5646d',
-//         borderRadius: '8px',
-//         backgroundColor: '#4e1655',
-//         boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)',
-//         cursor: 'pointer'
-//       }}
-//     >
-//       <strong>{data.label}</strong>
-//       <div style={{ marginTop: '5px', fontSize: '0.85rem', color: '#333' }}>
-//         <p><strong>Message:</strong> {data.message}</p>
-//         <p><strong>Output:</strong> {data.output}</p>
-//       </div>
-//     </div>
-//   );
-// };
-
 const ChatInterface = () => {
   // Chat state
   const [messages, setMessages] = useState([
@@ -106,6 +84,11 @@ const ChatInterface = () => {
       <div
         style={{
           backgroundColor: '#4e1655',
+          backgroundImage: `
+            linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '20px 20px',
           padding: '20px',
           borderRadius: '8px',
           width: '80%',
@@ -338,40 +321,6 @@ const ChatInterface = () => {
     zIndex: 1000
   };
 
-  const modalContentStyle = {
-    backgroundColor: '#4e1655',
-    padding: '20px',
-    borderRadius: '8px',
-    width: '80%',
-    height: '80%',
-    overflow: 'auto',
-    boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)'
-  };
-
-//   const Modal = ({ onClose, children }) => (
-//     <div style={modalOverlayStyle}>
-//       <div style={modalContentStyle}>
-//       <button 
-//   onClick={onClose} 
-//   style={{ 
-//     marginBottom: '10px', 
-//     cursor: 'pointer', 
-//     backgroundColor: 'grey', 
-//     color: 'black', 
-//     border: 'none', 
-//     padding: '8px 16px', 
-//     borderRadius: '8px' 
-//   }}
-// >
-//   Close
-// </button>
-//         {children}
-//       </div>
-//     </div>
-//   );
-
-
-
 const CustomNode = ({ data }) => {
   return (
     <div style={{
@@ -391,7 +340,7 @@ const CustomNode = ({ data }) => {
 const nodeTypes = { custom: CustomNode };
 
 // Ensure that each node in `nodes` has `type: 'custom'`
-const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
+// const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
 
   return (
     <div style={outerContainerStyle}>

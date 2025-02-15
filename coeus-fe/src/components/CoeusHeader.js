@@ -5,7 +5,7 @@ import React from 'react';
     fontSize: '2rem',
     color: '#fff',
     textAlign: 'center',
-    marginBottom: '1rem'
+    marginBottom: '2rem'
   };
 
 const CoeusHeader = () => {

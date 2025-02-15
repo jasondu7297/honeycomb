@@ -8,10 +8,18 @@ import ChatInterface from './components/ChatInterface';
 function App() {
   // Sample data to display in the Tools grid
   const myTools = [
-    { id: 1, name: 'Tool 1' },
-    { id: 2, name: 'Tool 2' },
-    { id: 3, name: 'Tool 3' },
+    { id: 1, name: 'Perplexity', imageUrl: '/icons/perplexity-ai-icon.png' },
+    { id: 2, name: 'Gmail', imageUrl: '/icons/gmail_icon.png' },
+    { id: 3, name: 'Google Drive', imageUrl: '/icons/google_drive_icon.png' },
+    { id: 4, name: 'Google Search', imageUrl: '/icons/google-icon-rounded.png' },
   ];
+  
+  const myModels = [
+    { id: 1, name: 'OpenAI', imageUrl: '/icons/open_ai_icon.png' },
+    { id: 2, name: 'Gemini', imageUrl: '/icons/google_docs.png' },
+    { id: 3, name: 'Mistral AI', imageUrl: '/icons/mistral_ai.png' },
+  ];
+  
 
   // Dark, futuristic theme styles
   const styles = {
@@ -54,7 +62,7 @@ function App() {
                 {activeTab === 'tools' ? (
                   <ToolsGrid tools={myTools} />
                 ) : (
-                  <ToolsGrid tools={myTools} />
+                  <ToolsGrid tools={myModels} />
                 )}
               </div>
             </div>

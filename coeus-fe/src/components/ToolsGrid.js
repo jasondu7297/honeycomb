@@ -101,7 +101,13 @@ const ToolsGrid = ({ tools }) => {
       {tools.map((tool) => (
         <div
           key={tool.id}
-          style={styles.toolCard}
+          style={{
+            ...styles.toolCard,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onClick={() => setSelectedTool(tool)}
           onMouseEnter={(e) =>
             (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)')
@@ -110,7 +116,12 @@ const ToolsGrid = ({ tools }) => {
             (e.currentTarget.style.background = 'rgba(93, 112, 147, 0.15)')
           }
         >
-          {tool.name}
+          <img
+            src={tool.imageUrl}
+            alt={tool.name}
+            style={{ width: '50px', height: '50px', marginBottom: '8px', borderRadius: '10%' }}
+          />
+          <span>{tool.name}</span>
         </div>
       ))}
       <div

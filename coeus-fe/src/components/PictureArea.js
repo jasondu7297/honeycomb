@@ -57,13 +57,13 @@ const PictureArea = ({ activeTab, setActiveTab }) => {
         </button>
         <button
           style={
-            activeTab === 'data'
+            activeTab === 'models'
               ? mergeStyles(styles.tabButton, styles.tabButtonActive)
               : styles.tabButton
           }
-          onClick={() => setActiveTab('data')}
+          onClick={() => setActiveTab('models')}
         >
-          My Data
+          My Models
         </button>
       </div>
     </div>
