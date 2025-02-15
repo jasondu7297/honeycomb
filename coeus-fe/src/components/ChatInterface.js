@@ -230,60 +230,217 @@ const ChatInterface = () => {
   };
   
 
+  // ----- STYLES -----
+
+  // Outer container: flex row to hold sidebar and main content
+  const outerContainerStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100vh',
+    width: '100%',
+    margin: 0,
+    padding: 0,
+    background: 'linear-gradient(180deg, #4e1655 0%, #0d080e 90%, #0d080e 100%)',
+    color: '#b94a53'
+  };
+
+  // const workflowBackgroundStyle = {
+  //   background: 'linear-gradient(180deg, #4e1655 50%, #0d080e 100%)',
+  //   width: '100%',
+  //   height: '100%',
+  // }
+  // Force the sidebar to be 250px wide
+  const sidebarWrapperStyle = {
+    width: '250px'
+  };
+
+  // Main container takes up the remaining space
+  const mainContainerStyle = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '1rem'
+  };
+
+  // Chat area container
+  const chatContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1 // grow to fill remaining vertical space
+  };
+
+  const chatWindowStyle = {
+    flex: 1,
+    overflowY: 'auto',
+    padding: '1rem',
+    backgroundColor: '#4e1655',
+    borderRadius: '8px',
+    marginBottom: '1rem',
+    width: '80%',
+    height: '80%',
+    transform: 'translateX(10%)',
+    boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)'
+  };
+
+  // Form styles
+  const formStyle = {
+    display: 'flex',
+    width: '100%'
+  };
+
+  const inputStyle = {
+    flex: 1,
+    padding: '0.75rem 1rem',
+    borderRadius: '20px',
+    border: `1px solid #b94a53`,
+    outline: 'none',
+    backgroundColor: '#0d080e',
+    color: '#b94a53'
+  };
+
+  const buttonStyle = {
+    marginLeft: '0.5rem',
+    padding: '0.75rem 1.5rem',
+    borderRadius: '20px',
+    border: 'none',
+    backgroundColor: '#b94a53',
+    color: '#0d080e',
+    cursor: 'pointer',
+    fontWeight: 'bold'
+  };
+  
+  // Message alignment and bubble styles
+  const messageStyle = (sender) => ({
+    display: 'flex',
+    justifyContent: sender === 'user' ? 'flex-end' : 'flex-start',
+    marginBottom: '1rem'
+  });
+
+  const bubbleStyle = (sender) => ({
+    maxWidth: '60%',
+    padding: '0.75rem 1rem',
+    borderRadius: '20px',
+    lineHeight: '1.4',
+    color: '#ffffff',
+    backgroundColor: sender === 'user' ? '#b94a53' : '#0d080e'
+  });
+
+  // ----- Modal & React Flow Styles -----
+  const modalOverlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'linear-gradient(180deg, #4e1655 0%, #0d080e 90%, #0d080e 100%)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000
+  };
+
+  const modalContentStyle = {
+    backgroundColor: '#4e1655',
+    padding: '20px',
+    borderRadius: '8px',
+    width: '80%',
+    height: '80%',
+    overflow: 'auto',
+    boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)'
+  };
+
+//   const Modal = ({ onClose, children }) => (
+//     <div style={modalOverlayStyle}>
+//       <div style={modalContentStyle}>
+//       <button 
+//   onClick={onClose} 
+//   style={{ 
+//     marginBottom: '10px', 
+//     cursor: 'pointer', 
+//     backgroundColor: 'grey', 
+//     color: 'black', 
+//     border: 'none', 
+//     padding: '8px 16px', 
+//     borderRadius: '8px' 
+//   }}
+// >
+//   Close
+// </button>
+//         {children}
+//       </div>
+//     </div>
+//   );
+
+
+
 const CustomNode = ({ data }) => {
   return (
-    <div className="custom-node">
+    <div style={{
+      backgroundColor: 'grey',
+      color: 'black',
+      padding: '10px 20px',
+      borderRadius: '12px',
+      textAlign: 'center',
+      boxShadow: '0px 2px 5px rgba(0,0,0,0.2)',
+      minWidth: '100px'
+    }}>
       {data.label}
     </div>
   );
 };
 
+// const nodeTypes = { custom: CustomNode };
+
+// Ensure that each node in `nodes` has `type: 'custom'`
 const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
 
   return (
-    <div className="outer-container">
-      <div className="sidebar-wrapper">
+    <div style={outerContainerStyle}>
+      {/* Sidebar Wrapper */}
+      <div style={sidebarWrapperStyle}>
         <Sidebar />
       </div>
 
-      <div className="main-container">
+      {/* Main Content */}
+      <div style={mainContainerStyle}>
         <CoeusHeader />
-        <div className="chat-container">
-          <div ref={chatWindowRef} className="chat-window">
+        <div style={chatContainerStyle}>
+          <div ref={chatWindowRef} style={chatWindowStyle}>
             {messages.map((msg, idx) => (
-              <div key={idx} className={`message-container ${msg.sender}`}>
-                <div className={`message-bubble ${msg.sender}`}>
+              <div key={idx} style={messageStyle(msg.sender)}>
+                <div style={bubbleStyle(msg.sender)}>
                   {msg.text}
                 </div>
               </div>
             ))}
             {isLoading && (
-              <div className="loading-indicator">
-                <div className="typing-bubble">Typing...</div>
+              <div style={messageStyle('bot')}>
+                <div style={bubbleStyle('bot')}>Typing...</div>
               </div>
             )}
           </div>
 
-          <form onSubmit={handleSend} className="chat-form">
+          <form onSubmit={handleSend} style={formStyle}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything..."
-              className="chat-input"
+              style={inputStyle}
             />
-            <button type="submit" className="chat-button">
+            <button type="submit" style={buttonStyle}>
               Send
             </button>
           </form>
         </div>
       </div>
 
-      {showVisualization && (
+            {/* Visualization Modal */}
+            {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
           <h2>Agentic AI Workflow Visualization</h2>
           <ReactFlowProvider>
-            <div className="workflow-container">
+            <div style={{ width: '100%', height: '100%' }}>
               <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -295,6 +452,7 @@ const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
         </Modal>
       )}
 
+      {/* Branching Modal */}
       {selectedCheckpoint && (
         <BranchModal
           checkpoint={selectedCheckpoint}
