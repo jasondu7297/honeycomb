@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Sidebar from './Sidebar';
 import CoeusHeader from './CoeusHeader';
-import ReactFlow, { ReactFlowProvider } from 'reactflow';
+import ReactFlow, { ReactFlowProvider, applyNodeChanges, applyEdgeChanges } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 const ChatInterface = () => {
@@ -13,7 +13,7 @@ const ChatInterface = () => {
   const [isLoading, setIsLoading] = useState(false);
   const chatWindowRef = useRef(null);
 
-// Visualization and branching modals
+  // Visualization and branching modals
   const [showVisualization, setShowVisualization] = useState(false);
   const [selectedCheckpoint, setSelectedCheckpoint] = useState(null);
 
@@ -27,6 +27,15 @@ const ChatInterface = () => {
     { id: 'e1-2', source: '1', target: '2' },
     { id: 'e2-3', source: '2', target: '3' }
   ]);
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [],
+  );
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [],
+  );
 
   // Automatically scroll to the bottom of the chat window when new messages arrive.
   useEffect(() => {
@@ -65,7 +74,7 @@ const ChatInterface = () => {
     return `You said: "${userText}". This is a simulated response.`;
   };
 
-  // // Modal component used for both the visualization and branch editing.
+  // Modal component used for both the visualization and branch editing.
   const Modal = ({ onClose, children }) => (
     <div
       style={{
@@ -112,6 +121,59 @@ const ChatInterface = () => {
       </div>
     </div>
   );
+
+  const BranchButton = ({ editedMessage, onClose }) => {
+    const [loading, setLoading] = useState(false);
+
+    const handleBranch = () => {
+      setLoading(true);
+      console.log('Branching off with new message:', editedMessage);
+      
+      // Simulate an asynchronous API call with a timeout.
+      setTimeout(() => {
+        // Here you would call your branch-off API (e.g. app.update_state)
+        onClose();
+        setLoading(false);
+      }, 2000); // 2 seconds delay for demonstration
+    };
+
+    return (
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        <button
+          onClick={handleBranch}
+          disabled={loading}
+          style={{
+            marginTop: '10px',
+            padding: '10px 20px',
+            backgroundColor: '#f5646d',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            opacity: loading ? 0.6 : 1
+          }}
+        >
+          {loading ? 'Branching...' : 'Branch from this checkpoint'}
+        </button>
+
+        {loading && (
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '4px'
+          }}>
+            <span>Loading...</span>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // Modal for branching off a checkpoint.
   const BranchModal = ({ checkpoint, onClose }) => {
@@ -177,30 +239,12 @@ const ChatInterface = () => {
               rows={4}
               style={{ width: '100%', marginTop: '5px' }}
             />
+            <BranchButton editedMessage={editedMessage} onClose={onClose} />
           </div>
-          <button
-            onClick={() => {
-              // Simulate updating the state and branching off.
-              console.log('Branching off with new message:', editedMessage);
-              // Here you would call your branch-off API (e.g. app.update_state)
-              onClose();
-            }}
-            style={{
-              marginTop: '10px',
-              padding: '10px 20px',
-              backgroundColor: '#f5646d',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            Branch from this checkpoint
-          </button>
         </div>
       </div>
     );
   };
-
 
   // Handler when a node is clicked in the React Flow graph.
   const onNodeClick = (event, node) => {
@@ -321,26 +365,26 @@ const ChatInterface = () => {
     zIndex: 1000
   };
 
-const CustomNode = ({ data }) => {
-  return (
-    <div style={{
-      backgroundColor: 'grey',
-      color: 'black',
-      padding: '10px 20px',
-      borderRadius: '12px',
-      textAlign: 'center',
-      boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)',
-      minWidth: '100px'
-    }}>
-      {data.label}
-    </div>
-  );
-};
+  const CustomNode = ({ data }) => {
+    return (
+      <div style={{
+        backgroundColor: 'grey',
+        color: 'black',
+        padding: '10px 20px',
+        borderRadius: '12px',
+        textAlign: 'center',
+        boxShadow: '0 0 20px rgba(247, 87, 111, 0.2)',
+        minWidth: '100px'
+      }}>
+        {data.label}
+      </div>
+    );
+  };
 
-const nodeTypes = { custom: CustomNode };
+  const nodeTypes = { custom: CustomNode };
 
-// Ensure that each node in `nodes` has `type: 'custom'`
-// const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
+  // Ensure that each node in `nodes` has `type: 'custom'`
+  // const updatedNodes = nodes.map(node => ({ ...node, type: 'custom' }));
 
   return (
     <div style={outerContainerStyle}>
@@ -383,21 +427,34 @@ const nodeTypes = { custom: CustomNode };
         </div>
       </div>
 
-            {/* Visualization Modal */}
-            {showVisualization && (
+      {/* Visualization Modal */}
+      {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
           <h2 style={whiteText}>Agentic AI Workflow Visualization</h2>
           <ReactFlowProvider>
             <div style={{ width: '100%', height: '100%' }}>
               <ReactFlow
-                nodes={nodes}
-                edges={edges}
+                nodes={nodes.map(node => ({
+                  ...node,
+                  position: { x: node.position.x, y: node.position.y }, // Ensures proper centering
+                  type: 'default', // Ensures nodes use default styling
+                }))}
+                edges={edges.map(edge => ({
+                  ...edge,
+                  markerEnd: {
+                    type: 'arrow',
+                  },
+                  type: 'smoothstep', // Ensures a curved smooth connection
+                  sourceHandle: 'right', // Connect from right side
+                  targetHandle: 'left', // Connect to left side
+                }))}
                 nodeTypes={nodeTypes}
                 onNodeClick={onNodeClick}
+                fitView
               />
             </div>
           </ReactFlowProvider>
-        </Modal>
+        </Modal>      
       )}
 
       {/* Branching Modal */}
