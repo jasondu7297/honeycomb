@@ -1,5 +1,13 @@
 # Platform Layer for Consumer AI
 
+## Setup
+
+The `create_python_env` script creates a `venv` at the root of the `coeus` project and installs the dependencies for our API.
+
+```sh
+./scripts/create_python_env.sh
+```
+
 ## Miscellaneous thoughts
 
 - Website actions as a state machine
