@@ -4,12 +4,10 @@ api
 
 ## Setup
 
-```sh
-coeus/ $ ./scripts/create_python_env.sh
-```
+Follow the `setup` instructions in [coeus/README.md](../../README.md)
 
-## Startup
+## Start the API
 
 ```sh
-uvicorn src.main:app --reload
+coeus/apps/api/ $ uvicorn src.main:app --reload
 ```
