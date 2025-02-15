@@ -3,7 +3,7 @@ from langgraph.graph import StateGraph
 from langgraph_supervisor import create_supervisor
 
 from agents.AgentRegistry import AgentRegistry
-from Workflow import StepState
+from workflows.Workflow import StepState
 
 
 class GraphBuilder(BaseModel):
