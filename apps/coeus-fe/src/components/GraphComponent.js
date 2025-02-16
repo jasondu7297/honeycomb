@@ -20,6 +20,7 @@ const GraphComponent = ({ onNodeClick }) => {
     }
   };
 
+  // what does this do, timer?
   useEffect(() => {
     fetchStateHistory();
     console.log("Fetching state history...");

@@ -18,9 +18,13 @@ def parse_state_snapshot(snapshot_str, messages, checkpoints):
         checkpoints[checkpoint_id.group(1)] = True
     messages.update(msg_contents)
     checkpoints.update(checkpoints)
-    # print(messages)
-    # print("----")
-    # print(checkpoints)
+    print(messages)
+    print("message count")
+    print(len(messages))
+    print("----")
+    print("checkpoint count")
+    print(len(checkpoints))
+    print(checkpoints)
    
 
 def parse_all_snapshots(input_str):
@@ -50,8 +54,8 @@ def parse_all_snapshots(input_str):
         thread_id = re.search(r"'thread_id': '([^']+)'", input_str)
         if thread_id:
             result['thread_id'] = thread_id.group(1)
-        # print(result)
-        # print("___________")
+        print(result)
+        print("___________")
         snapshots.append(result)
     
     return snapshots

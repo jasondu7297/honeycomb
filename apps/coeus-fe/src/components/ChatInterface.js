@@ -101,16 +101,54 @@ const ChatInterface = () => {
   const BranchButton = ({ editedMessage, onClose }) => {
     const [loading, setLoading] = useState(false);
 
-    const handleBranch = () => {
-      setLoading(true);
+    const handleBranch = async (e) => {
+      e.preventDefault();
+      if (!input.trim()) return;
       console.log('Branching off with new message:', editedMessage);
-      
-      // Simulate an asynchronous API call with a timeout.
-      setTimeout(() => {
-        // Here you would call your branch-off API (e.g. app.update_state)
-        onClose();
-        setLoading(false);
-      }, 2000); // 2 seconds delay for demonstration
+
+      // Add the user's message to the chat
+      setMessages(prev => [...prev, { sender: 'user', text: input }]);
+      setIsLoading(true);
+  
+      try {
+        const response = await fetch("http://localhost:8000/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: editedMessage }),
+        });
+  
+        // Clear the input field
+        setInput("");
+  
+        // Add an initial bot message (which we'll update as we receive the stream)
+        setMessages(prev => [...prev, { sender: 'bot', text: "", isStreaming: true }]);
+  
+        // Process the streaming response
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let result = "";
+  
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          result += decoder.decode(value, { stream: true });
+        }
+        const finalMessage = extractFinalMessage(result); // Your function to get the final message
+        setMessages(prevMessages => {
+          const updatedMessages = [...prevMessages];
+          // Replace the last message (the streaming bot message) with the final message
+          updatedMessages[updatedMessages.length - 1] = {
+            ...updatedMessages[updatedMessages.length - 1],
+            text: finalMessage,
+            isStreaming: false, // Optionally disable any streaming indicator
+          };
+          return updatedMessages;
+        });
+      } catch (error) {
+        console.error("Error streaming response:", error);
+        setMessages(prev => [...prev, { sender: 'bot', text: "Error occurred" }]);
+      }
+      setIsLoading(false);
     };
 
     return (
@@ -356,6 +394,7 @@ const ChatInterface = () => {
 
   const nodeTypes = { custom: CustomNode };
 
+  //pass route
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;

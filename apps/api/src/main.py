@@ -47,9 +47,16 @@ async def run_test(request: Request):
 
 @app.get("/get_history")
 def get_history() -> str:
-    res = WorkflowHistory.get_history()
-    print(res)
-    return res
+    print("Getting history...")
+    history = WorkflowHistory.get_history()
+    state_history = parse_all_snapshots(history)
+    return JSONResponse(
+        content=state_history,
+        headers={
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+            "Access-Control-Allow-Credentials": "true",
+        }
+    )
 
 @app.post("/update")
 def update(checkpoint_id: int, new_prompt: str):
