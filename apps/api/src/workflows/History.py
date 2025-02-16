@@ -16,7 +16,6 @@ class WorkflowHistory:
     def update(cls, checkpoint_id: str, new_prompt: str) -> Union[dict[str, Any], Any]:
         graph = GraphBuilder.get_graph()
         print("Updating history...")
-        print(checkpoint_id)
         print(new_prompt)
         for state in graph.get_state_history(cls._conf):
             print(state.config['configurable']['checkpoint_id'])

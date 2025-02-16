@@ -13,7 +13,7 @@ def parse_state_snapshot(snapshot_str, messages, checkpoints):
     #    We look for the pattern: values={'messages': [ ... ]}
 
     msg_contents = collections.OrderedDict.fromkeys(re.findall(r"content='([^']+)'", snapshot_str))
-    more_msg_contents = collections.OrderedDict.fromkeys(re.findall(r"content='([^']+)'", snapshot_str))
+    more_msg_contents = collections.OrderedDict.fromkeys(re.findall(r'content="([^"]+)"', snapshot_str))
 
     checkpoint_id = re.search(r"'checkpoint_id': '([^']+)'", snapshot_str)
     if checkpoint_id:
