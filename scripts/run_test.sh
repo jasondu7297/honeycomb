@@ -7,8 +7,5 @@ export REPO_ROOT="$(cd ${SCRIPT_DIR} && git rev-parse --show-superproject-workin
 cd ${REPO_ROOT}
 
 # Set the [PYTHONPATH] to the root of the [api]. Since this is our only Python project, this works nicely and solves
-# our issues with module discovery.
-PYTHONPATH=$(pwd)/apps/api 
-
-# Run the test script
-python3 apps/api/src/TestRunner.py
+# our issues with module discovery. Then run the test runner.
+PYTHONPATH=$(pwd)/apps/api python3 apps/api/src/TestRunner.py

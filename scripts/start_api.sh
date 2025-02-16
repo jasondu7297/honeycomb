@@ -8,8 +8,6 @@ cd ${REPO_ROOT}
 
 # Set the [PYTHONPATH] to the root of the [api]. Since this is our only Python project, this works nicely and solves
 # our issues with module discovery.
-PYTHONPATH=$(pwd)/apps/api 
-
 # Run the [api] from the api/ directory
 cd apps/api
-uvicorn src.main:app --reload
+PYTHONPATH=$(pwd) uvicorn src.main:app --reload
