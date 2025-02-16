@@ -2,7 +2,7 @@ from typing import Any, Union
 from langchain_core.messages import HumanMessage
 
 from config import ProjectConf
-from Graph import GraphBuilder
+from src.workflows.Graph import GraphBuilder
 
 class WorkflowHistory:
     _conf = ProjectConf.state_snapshot_config

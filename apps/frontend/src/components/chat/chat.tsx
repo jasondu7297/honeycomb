@@ -64,28 +64,68 @@ const ChatUI = () => {
   const [newMessage, setNewMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      const userMessage = {
-        id: messages.length + 1,
-        text: newMessage,
-        isUser: true
-      };
+  function extractFinalMessage(rawOutput : string) {
+    // Use a regular expression to match the last AIMessage content
+    const regex = /AIMessage\(content='([^']*)'/g;
+    let match, lastMessage = '';
+    while ((match = regex.exec(rawOutput)) !== null) {
+      lastMessage = match[1];
+    }
+    return lastMessage;
+  }
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return; 
+
+    const userMessage = {
+      id: messages.length + 1,
+      text: newMessage,
+      isUser: true
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: newMessage }),
+      });
+
+      if (!response.body) throw Error('Response had no body')
+
       setMessages([...messages, userMessage]);
+
       setNewMessage("");
       setIsTyping(true);
+      
+       // Process the streaming response
+       const reader = response.body.getReader();
+       const decoder = new TextDecoder("utf-8");
+       let result = "";
+ 
+       while (true) {
+         const { done, value } = await reader.read();
+         if (done) break;
+         result += decoder.decode(value, { stream: true });
+         // Update the last bot message with the streaming result
+         const updated = [...messages];
+         if (!updated[updated.length - 1].isUser) {
+          updated[updated.length - 1] = { ...updated[updated.length - 1], text: result}
+         }
+         setMessages(updated);
+       }
+       const finalMessage = extractFinalMessage(result); // Your function to get the final message
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botMessage = {
-          id: messages.length + 2,
-          text: "Thank you for providing that information. I'm processing your request now.",
-          isUser: false
-        };
-        setMessages(prev => [...prev, botMessage]);
-        setIsTyping(false);
-      }, 2000);
+       const updatedMessages = [...messages];
+       updatedMessages[updatedMessages.length - 1] = {
+        ...updatedMessages[updatedMessages.length - 1],
+        text: finalMessage
+       }
+       setMessages(updatedMessages)
+    } catch (error) {
+      console.error("Error streaming response:", error);
+      setMessages([...messages, { id: messages.length + 1, text: "Error occurred", isUser: false }]);
     }
+    setIsTyping(false);
   };
 
   useEffect(() => {
