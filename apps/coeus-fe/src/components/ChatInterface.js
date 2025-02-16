@@ -521,7 +521,7 @@ const ChatInterface = () => {
       {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
           <h2 style={{ color: 'white' }}>Agentic AI Workflow Visualization</h2>
-          <GraphComponent onNodeClick={onNodeClick} />
+          <GraphComponent onNodeClick={onNodeClick} selectedCheckpoint={selectedCheckpoint} />
         </Modal>
       )}
   
@@ -529,7 +529,6 @@ const ChatInterface = () => {
       {selectedCheckpoint && (
         <BranchModal
           checkpoint={selectedCheckpoint}
-          onClose={() => setSelectedCheckpoint(null)}
         />
       )}
     </div>
