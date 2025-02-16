@@ -7,7 +7,7 @@ from src.workflows.History import WorkflowHistory
 
 router = APIRouter()
 
-@router.get("/get")
+@router.get("/get_history")
 def get_history() -> str:
     return WorkflowHistory.get_history()
 

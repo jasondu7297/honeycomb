@@ -4,15 +4,15 @@ import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { transformStateHistoryToNodes, transformStateHistoryToEdges } from '../utils/transformStateHistory';
 
-const GraphComponent = ({ isLoading }) => {
+const GraphComponent = ({ onNodeClick }) => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
 
   const fetchStateHistory = async () => {
     try {
-      const response = await fetch("http://localhost:8000/state_history");
+      const response = await fetch("http://localhost:8000/get_history");
       const data = await response.json();
-      // Transform the state history data into React Flow nodes and edges
+      console.log("Fetched state history:", data);
       setNodes(transformStateHistoryToNodes(data));
       setEdges(transformStateHistoryToEdges(data));
     } catch (error) {
@@ -20,12 +20,11 @@ const GraphComponent = ({ isLoading }) => {
     }
   };
 
-  // Fetch the state history whenever isLoading becomes true
+  // what does this do, timer?
   useEffect(() => {
-    if (isLoading) {
-      fetchStateHistory();
-    }
-  }, [isLoading]);
+    fetchStateHistory();
+    console.log("Fetching state history...");
+  }, []);
 
   return (
     <ReactFlowProvider>
@@ -34,7 +33,11 @@ const GraphComponent = ({ isLoading }) => {
           nodes={nodes}
           edges={edges}
           fitView
-          onNodeClick={(event, node) => console.log("Clicked node:", node)}
+          onNodeClick={(event, node) => {
+            if (onNodeClick) {
+              onNodeClick(event, node);
+            }
+          }}
         />
       </div>
     </ReactFlowProvider>

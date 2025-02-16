@@ -9,7 +9,8 @@ class WorkflowHistory:
     @classmethod
     def get_history(cls) -> str:
         graph = GraphBuilder.get_graph()
-        return str(graph.get_state_history(cls._conf))
+        print(str(list(graph.get_state_history(cls._conf))))
+        return str(list(graph.get_state_history(cls._conf)))
 
     @classmethod
     def update(cls, checkpoint_id: str, new_prompt: str) -> Union[dict[str, Any], Any]:

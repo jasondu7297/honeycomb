@@ -98,21 +98,67 @@ const ChatInterface = () => {
     </div>
   );
 
-  const BranchButton = ({ editedMessage, onClose }) => {
+  const BranchButton = ({ checkpointId, editedMessage, onClose }) => {
     const [loading, setLoading] = useState(false);
-
-    const handleBranch = () => {
-      setLoading(true);
+    const [messages, setMessages] = useState([]);
+  
+    const handleBranch = async (e) => {
+      e.preventDefault();
+      if (!editedMessage.trim()) return; // Use editedMessage here
       console.log('Branching off with new message:', editedMessage);
-      
-      // Simulate an asynchronous API call with a timeout.
-      setTimeout(() => {
-        // Here you would call your branch-off API (e.g. app.update_state)
-        onClose();
-        setLoading(false);
-      }, 2000); // 2 seconds delay for demonstration
-    };
+      console.log('Checkpoint ID:', checkpointId);
+      // Add the user's message to the chat
+      setMessages(prev => [...prev, { sender: 'user', text: editedMessage }]);
+      setLoading(true);
+      const payload = {
+        checkpoint_id: checkpointId, // Replace with the actual checkpoint id (an integer)
+        new_prompt: editedMessage, // The prompt string you want to pass
+      };
 
+      try {
+        const response = await fetch("http://localhost:8000/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+  
+        // Add an initial bot message (which we'll update as we receive the stream)
+        setMessages(prev => [
+          ...prev,
+          { sender: 'bot', text: "", isStreaming: true }
+        ]);
+  
+        // Process the streaming response
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let result = "";
+  
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          result += decoder.decode(value, { stream: true });
+        }
+        const finalMessage = extractFinalMessage(result); // Your function to get the final message
+        setMessages(prevMessages => {
+          const updatedMessages = [...prevMessages];
+          // Replace the last message (the streaming bot message) with the final message
+          updatedMessages[updatedMessages.length - 1] = {
+            ...updatedMessages[updatedMessages.length - 1],
+            text: finalMessage,
+            isStreaming: false,
+          };
+          return updatedMessages;
+        });
+      } catch (error) {
+        console.error("Error streaming response:", error);
+        setMessages(prev => [
+          ...prev,
+          { sender: 'bot', text: "Error occurred" }
+        ]);
+      }
+      setLoading(false);
+    };
+  
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <button
@@ -125,25 +171,27 @@ const ChatInterface = () => {
             border: 'none',
             borderRadius: '4px',
             cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.6 : 1
+            opacity: loading ? 0.6 : 1,
           }}
         >
           {loading ? 'Branching...' : 'Branch from this checkpoint'}
         </button>
-
+  
         {loading && (
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px'
-          }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '4px',
+            }}
+          >
             <span>Loading...</span>
           </div>
         )}
@@ -155,6 +203,8 @@ const ChatInterface = () => {
   const BranchModal = ({ checkpoint, onClose }) => {
     // Local state to allow editing the checkpoint's message.
     const [editedMessage, setEditedMessage] = useState(checkpoint.data.message);
+    console.log('Checkpoint:', checkpoint);
+    console.log('Edited message:', editedMessage);
     return (
       <div
         style={{
@@ -200,12 +250,6 @@ const ChatInterface = () => {
             <pre style={{ backgroundColor: '#f0f0f0', padding: '10px' }}>
               {checkpoint.data.message}
             </pre>
-            <p>
-              <strong>Output:</strong>
-            </p>
-            <pre style={{ backgroundColor: '#f0f0f0', padding: '10px' }}>
-              {checkpoint.data.output}
-            </pre>
           </div>
           <div style={{ marginTop: '10px' }}>
             <label>Edit Message to Branch Off:</label>
@@ -215,7 +259,7 @@ const ChatInterface = () => {
               rows={4}
               style={{ width: '100%', marginTop: '5px' }}
             />
-            <BranchButton editedMessage={editedMessage} onClose={onClose} />
+            <BranchButton checkpointId={checkpoint.id} editedMessage={editedMessage} onClose={onClose} />
           </div>
         </div>
       </div>
@@ -225,6 +269,7 @@ const ChatInterface = () => {
   // Handler when a node is clicked in the React Flow graph.
   const onNodeClick = (event, node) => {
     // Open the branch modal for the clicked node.
+    console.log("Clicked node:", node);
     setSelectedCheckpoint(node);
   };
 
@@ -359,6 +404,7 @@ const ChatInterface = () => {
 
   const nodeTypes = { custom: CustomNode };
 
+  //pass route
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -483,7 +529,7 @@ const ChatInterface = () => {
       {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
           <h2 style={{ color: 'white' }}>Agentic AI Workflow Visualization</h2>
-          <GraphComponent isLoading={isLoading} />
+          <GraphComponent onNodeClick={onNodeClick} />
         </Modal>
       )}
   

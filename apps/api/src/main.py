@@ -2,13 +2,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.memory.router import router as memory_router
 from src.workflows.router import router as workflows_router
+from src.utils.extract_state_fields import parse_all_snapshots
+from fastapi.responses import JSONResponse
+from src.workflows.History import WorkflowHistory
 
 app = FastAPI()
 
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow requests from your React app's origin
+    allow_origins=["http://localhost:3000", "http://localhost:8000"],  # Allow requests from your React app's origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

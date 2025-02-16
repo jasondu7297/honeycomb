@@ -18,6 +18,14 @@ def parse_state_snapshot(snapshot_str, messages, checkpoints):
         checkpoints[checkpoint_id.group(1)] = True
     messages.update(msg_contents)
     checkpoints.update(checkpoints)
+    print(messages)
+    print("message count")
+    print(len(messages))
+    print("----")
+    print("checkpoint count")
+    print(len(checkpoints))
+    print(checkpoints)
+   
 
 def parse_all_snapshots(input_str):
     """
@@ -59,3 +67,6 @@ input_string = """
  StateSnapshot(values={'messages': [HumanMessage(content='Who was the 10th US president?', additional_kwargs={}, response_metadata={}, id='b1a585f0-866d-42f2-9216-a8693e94ea84')]}, next=('supervisor',), config={'configurable': {'thread_id': '1', 'checkpoint_ns': '', 'checkpoint_id': '1efec06f-8379-6e2a-8000-a4c6f713eed3'}}, metadata={'source': 'loop', 'writes': None, 'thread_id': '1', 'step': 0, 'parents': {}}, created_at='2025-02-16T01:40:15.012811+00:00', parent_config={'configurable': {'thread_id': '1', 'checkpoint_ns': '', 'checkpoint_id': '1efec06f-8377-6738-bfff-c6a96fbbb30f'}}, tasks=(PregelTask(id='caf8ab33-4cfb-a67b-b5a1-e5f651b25194', name='supervisor', path=('__pregel_pull', 'supervisor'), error=None, interrupts=(), state={'configurable': {'thread_id': '1', 'checkpoint_ns': 'supervisor:caf8ab33-4cfb-a67b-b5a1-e5f651b25194'}}, result={'messages': [ToolMessage(content='Successfully transferred to GSearchAgent', name='transfer_to_gsearchagent', tool_call_id='call_YMbF7OkWWH2AFQb5VedTKBY7')]}),)),
  StateSnapshot(values={'messages': []}, next=('__start__',), config={'configurable': {'thread_id': '1', 'checkpoint_ns': '', 'checkpoint_id': '1efec06f-8377-6738-bfff-c6a96fbbb30f'}}, metadata={'source': 'input', 'writes': {'__start__': {'messages': [['user', 'Who was the 10th US president?']]}}, 'thread_id': '1', 'step': -1, 'parents': {}}, created_at='2025-02-16T01:40:15.011816+00:00', parent_config=None, tasks=(PregelTask(id='c35e8fd3-34e7-d932-9ac2-771a2afc3a2a', name='__start__', path=('__pregel_pull', '__start__'), error=None, interrupts=(), state=None, result={'messages': [['user', 'Who was the 10th US president?']]}),))]
 """
+
+# Parse the snapshots:
+# parsed_snapshots = parse_all_snapshots(input_string)

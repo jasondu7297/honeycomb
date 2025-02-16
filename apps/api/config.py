@@ -9,7 +9,7 @@ class ProjectConf:
         model="gpt-4o",
         temperature=0,
         timeout=None,
-        max_retries=2,
+        max_retries=2
     )   # the LLM to be used throughout all agents
 
     state_snapshot_config = {"configurable": {"thread_id": "1"}}
