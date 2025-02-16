@@ -2,6 +2,20 @@
 
 Our project enables __*Repeatable Workflows via Natural Language*__, automating multi-step processes with ease. It connects to a number of data sources and uses agents to take actions during execution. Workflows are saved as checkpointed graphs for reliability. RAG-powered memory preserves context for adaptive automation.
 
+## Features
+
+### Chat Interface with Chain of Thought & Agentic Behaviours
+
+TODO: image
+
+### Workflows as Checkpointed Graphs
+
+TODO: image
+
+### Embedding Visualization
+
+![Embedding Visualization](assets/embedding-visualization.png)
+
 ## Running the Project
 
 ### Requirements
