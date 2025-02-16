@@ -8,7 +8,7 @@ from src.agents.Agent import Agent
 from src.agents.AgentRegistry import AgentRegistry
 from config import ProjectConf
 
-from tools.GDriveTool import GoogleDriveTool
+from src.tools.GDriveTool import GoogleDriveTool
 
 @AgentRegistry.register
 class GDriveAgent(Agent):

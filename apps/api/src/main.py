@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from src.memory.router import router as memory_router
-from apps.api.src.runner import Runner
+from src.runner import Runner
 from src.workflows.router import router as workflows_router
 from src.utils.extract_state_fields import parse_all_snapshots
 from src.workflows.History import WorkflowHistory
