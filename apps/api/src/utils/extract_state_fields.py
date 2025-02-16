@@ -50,8 +50,8 @@ def parse_all_snapshots(input_str):
         thread_id = re.search(r"'thread_id': '([^']+)'", input_str)
         if thread_id:
             result['thread_id'] = thread_id.group(1)
-        print(result)
-        print("___________")
+        # print(result)
+        # print("___________")
         snapshots.append(result)
     
     return snapshots

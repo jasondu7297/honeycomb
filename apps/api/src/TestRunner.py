@@ -3,6 +3,7 @@ from src.workflows.Graph import GraphBuilder
 
 class TestRunner:
     def run(self, user_message: str):
+        print(  "Running test: ", user_message)
         graph_builder = GraphBuilder.build()
         # Stream the output by yielding each chunk instead of printing
         for s in graph_builder.stream(

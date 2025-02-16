@@ -1,8 +1,8 @@
 from typing import Any, Union
 from langchain_core.messages import HumanMessage
 
-from conf.ProjectConf import ProjectConf
-from Graph import GraphBuilder
+from src.conf.ProjectConf import ProjectConf
+from src.workflows.Graph import GraphBuilder
 
 class WorkflowHistory:
     _conf = ProjectConf.state_snapshot_config
@@ -10,7 +10,8 @@ class WorkflowHistory:
     @classmethod
     def get_history(cls) -> str:
         graph = GraphBuilder.get_graph()
-        return str(graph.get_state_history(cls._conf))
+        print(str(list(graph.get_state_history(cls._conf))))
+        return str(list(graph.get_state_history(cls._conf)))
 
     @classmethod
     def update(cls, checkpoint_id: int, new_prompt: str) -> Union[dict[str, Any], Any]:

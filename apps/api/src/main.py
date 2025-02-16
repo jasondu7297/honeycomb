@@ -2,13 +2,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.memory.router import router as memory_router
 from src.workflows.router import router as workflows_router
+from src.utils.extract_state_fields import parse_all_snapshots
+from fastapi.responses import JSONResponse
+from src.workflows.History import WorkflowHistory
 
 app = FastAPI()
 
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow requests from your React app's origin
+    allow_origins=["http://localhost:3000", "http://localhost:8000"],  # Allow requests from your React app's origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -41,8 +44,25 @@ async def run_test(request: Request):
 
     return StreamingResponse(event_generator(), media_type="text/plain")
 
-# Endpoint for retrieving state history as JSON
+
+@app.get("/get_history")
+def get_history() -> str:
+    res = WorkflowHistory.get_history()
+    print(res)
+    return res
+
+@app.post("/update")
+def update(checkpoint_id: int, new_prompt: str):
+    return WorkflowHistory.update(checkpoint_id, new_prompt)
+
+# # Endpoint for retrieving state history as JSON
 # @app.get("/state_history")
 # async def state_history_endpoint():
-#     state_history = get_state_history()
-#     return JSONResponse(content=state_history)
+#     state_history = parse_all_snapshots(input_string)
+#     return JSONResponse(
+#         content=state_history,
+#         headers={
+#             "Access-Control-Allow-Origin": "http://localhost:3000",
+#             "Access-Control-Allow-Credentials": "true",
+#         }
+#     )

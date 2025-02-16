@@ -11,7 +11,7 @@ const ChatInterface = () => {
     { sender: 'bot', text: 'Hello, how can I assist you today?' }
   ]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const chatWindowRef = useRef(null);
 
   // Visualization and branching modals
@@ -154,7 +154,9 @@ const ChatInterface = () => {
   // Modal for branching off a checkpoint.
   const BranchModal = ({ checkpoint, onClose }) => {
     // Local state to allow editing the checkpoint's message.
+    // console.log('Checkpoint:', checkpoint);
     const [editedMessage, setEditedMessage] = useState(checkpoint.data.message);
+    // console.log('Edited message:', editedMessage);
     return (
       <div
         style={{
@@ -200,12 +202,6 @@ const ChatInterface = () => {
             <pre style={{ backgroundColor: '#f0f0f0', padding: '10px' }}>
               {checkpoint.data.message}
             </pre>
-            <p>
-              <strong>Output:</strong>
-            </p>
-            <pre style={{ backgroundColor: '#f0f0f0', padding: '10px' }}>
-              {checkpoint.data.output}
-            </pre>
           </div>
           <div style={{ marginTop: '10px' }}>
             <label>Edit Message to Branch Off:</label>
@@ -225,6 +221,7 @@ const ChatInterface = () => {
   // Handler when a node is clicked in the React Flow graph.
   const onNodeClick = (event, node) => {
     // Open the branch modal for the clicked node.
+    console.log("Clicked node:", node);
     setSelectedCheckpoint(node);
   };
 
@@ -475,7 +472,7 @@ const ChatInterface = () => {
       {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
           <h2 style={{ color: 'white' }}>Agentic AI Workflow Visualization</h2>
-          <GraphComponent isLoading={isLoading} />
+          <GraphComponent onNodeClick={onNodeClick} />
         </Modal>
       )}
   
