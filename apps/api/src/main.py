@@ -41,21 +41,6 @@ async def run_test(request: Request):
 
     return StreamingResponse(event_generator(), media_type="text/plain")
 
-
-@app.post("/run")
-async def run_test(request: Request):
-    # Parse the JSON body for the user message
-    data = await request.json()
-    user_input = data.get("message", "Who was the 10th US president?")
-
-    # Create a generator that yields output from TestRunner.run()
-    def event_generator():
-        runner = TestRunner()
-        for output in runner.run(user_input):
-            yield output
-
-    return StreamingResponse(event_generator(), media_type="text/plain")
-
 # Endpoint for retrieving state history as JSON
 # @app.get("/state_history")
 # async def state_history_endpoint():
