@@ -1,14 +1,28 @@
-# Platform Layer for Consumer AI
+# Coeus - Repeatable Workflows via Natural Language
 
-## Setup
+Our project enables __*Repeatable Workflows via Natural Language*__, automating multi-step processes with ease. It connects to a number of data sources and uses agents to take actions during execution. Workflows are saved as checkpointed graphs for reliability. RAG-powered memory preserves context for adaptive automation.
 
-The `create_python_env` script creates a `venv` at the root of the `coeus` project and installs the dependencies for our API.
+## Running the Project
+
+### Requirements
+
+- Docker & Docker Compose [(installable via Docker Desktop)](https://www.docker.com/products/docker-desktop/)
+- `Python >= 3.12`
+
+### Setup & Startup
+
+All of the following commands should be run from the root `coeus/` directory.
 
 ```sh
+# Create a virtual environment and install Python dependencies
 ./scripts/create_python_env.sh
+
+# Spin up a local ElasticSearch database
+docker compose up
+
+# Start the API
+./scripts/start_api.sh
+
+# Start the App
+TODO:
 ```
-
-## Miscellaneous thoughts
-
-- Website actions as a state machine
-  - I'm environing replayabiliy of actions taken by operator. Should be easy to replay up to a certain point, maybe undo, etc... to build easy web-based agentic workflows.
