@@ -11,7 +11,7 @@ const ChatInterface = () => {
     { sender: 'bot', text: 'Hello, how can I assist you today?' }
   ]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const chatWindowRef = useRef(null);
 
   // Visualization and branching modals
@@ -98,30 +98,35 @@ const ChatInterface = () => {
     </div>
   );
 
-  const BranchButton = ({ editedMessage, onClose }) => {
+  const BranchButton = ({ checkpointId, editedMessage, onClose }) => {
     const [loading, setLoading] = useState(false);
-
+    const [messages, setMessages] = useState([]);
+  
     const handleBranch = async (e) => {
       e.preventDefault();
-      if (!input.trim()) return;
+      if (!editedMessage.trim()) return; // Use editedMessage here
       console.log('Branching off with new message:', editedMessage);
-
+      console.log('Checkpoint ID:', checkpointId);
       // Add the user's message to the chat
-      setMessages(prev => [...prev, { sender: 'user', text: input }]);
-      setIsLoading(true);
-  
+      setMessages(prev => [...prev, { sender: 'user', text: editedMessage }]);
+      setLoading(true);
+      const payload = {
+        checkpoint_id: checkpointId, // Replace with the actual checkpoint id (an integer)
+        new_prompt: editedMessage, // The prompt string you want to pass
+      };
+
       try {
         const response = await fetch("http://localhost:8000/update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: editedMessage }),
+          body: JSON.stringify(payload),
         });
   
-        // Clear the input field
-        setInput("");
-  
         // Add an initial bot message (which we'll update as we receive the stream)
-        setMessages(prev => [...prev, { sender: 'bot', text: "", isStreaming: true }]);
+        setMessages(prev => [
+          ...prev,
+          { sender: 'bot', text: "", isStreaming: true }
+        ]);
   
         // Process the streaming response
         const reader = response.body.getReader();
@@ -140,17 +145,20 @@ const ChatInterface = () => {
           updatedMessages[updatedMessages.length - 1] = {
             ...updatedMessages[updatedMessages.length - 1],
             text: finalMessage,
-            isStreaming: false, // Optionally disable any streaming indicator
+            isStreaming: false,
           };
           return updatedMessages;
         });
       } catch (error) {
         console.error("Error streaming response:", error);
-        setMessages(prev => [...prev, { sender: 'bot', text: "Error occurred" }]);
+        setMessages(prev => [
+          ...prev,
+          { sender: 'bot', text: "Error occurred" }
+        ]);
       }
-      setIsLoading(false);
+      setLoading(false);
     };
-
+  
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <button
@@ -163,25 +171,27 @@ const ChatInterface = () => {
             border: 'none',
             borderRadius: '4px',
             cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.6 : 1
+            opacity: loading ? 0.6 : 1,
           }}
         >
           {loading ? 'Branching...' : 'Branch from this checkpoint'}
         </button>
-
+  
         {loading && (
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px'
-          }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '4px',
+            }}
+          >
             <span>Loading...</span>
           </div>
         )}
@@ -192,9 +202,9 @@ const ChatInterface = () => {
   // Modal for branching off a checkpoint.
   const BranchModal = ({ checkpoint, onClose }) => {
     // Local state to allow editing the checkpoint's message.
-    // console.log('Checkpoint:', checkpoint);
     const [editedMessage, setEditedMessage] = useState(checkpoint.data.message);
-    // console.log('Edited message:', editedMessage);
+    console.log('Checkpoint:', checkpoint);
+    console.log('Edited message:', editedMessage);
     return (
       <div
         style={{
@@ -249,7 +259,7 @@ const ChatInterface = () => {
               rows={4}
               style={{ width: '100%', marginTop: '5px' }}
             />
-            <BranchButton editedMessage={editedMessage} onClose={onClose} />
+            <BranchButton checkpointId={checkpoint.id} editedMessage={editedMessage} onClose={onClose} />
           </div>
         </div>
       </div>
