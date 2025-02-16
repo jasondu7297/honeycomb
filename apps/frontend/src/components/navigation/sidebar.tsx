@@ -23,9 +23,6 @@ import SchemaIcon from '@mui/icons-material/Schema';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import Chat from '../chat/chat';
 import Workflow from '../workflow/workflow';
-import Home from '../home/home'
-
-import { HomeOutlined  } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -127,7 +124,7 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', width: '100%' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -145,9 +142,24 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Coeus
-          </Typography>
+          <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '3px',
+            }}
+            >
+            {/* Logo Image */}
+            <img
+                src="/WHITE_LOGO.png"
+                alt="Coeus Logo"
+                style={{ marginRight: '5px', height: '45px' }} // Adjust height and margin as needed
+            />
+            {/* Application Name */}
+            <Typography variant="h6" noWrap component="div">
+                Coeus
+            </Typography>
+            </Box>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -158,14 +170,14 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[ 'Home', 'Chat', 'Workflows', 'Embeddings'].map((text, index) => (
+          {[ 'Chat', 'Workflows', 'Embeddings'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 {
-                    index === 3 ? ( <>
+                    index === 2 ? ( <>
                        
                             <ListItemButton
                                 component='a'
-                                href="https://example.com"
+                                href="https://poloclub.github.io/wizmap/?dataURL=http%3A%2F%2F127.0.0.1%3A5500%2Fdata.ndjson&gridURL=http%3A%2F%2F127.0.0.1%3A5500%2Fgrid.json"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 sx={[
@@ -209,8 +221,7 @@ export default function MiniDrawer() {
                                 ? { justifyContent: 'initial', }
                                 : { justifyContent: 'center', },
                             ]}
-                            onClick={() => setPage(index === 0 ? 'home' :
-                                    index === 1 ? 'chat' : 'workflow')}
+                            onClick={() => setPage(index === 0  ? 'chat' : 'workflow')}
                         >
                             <ListItemIcon
                             sx={[
@@ -220,9 +231,9 @@ export default function MiniDrawer() {
                                 : {   mr: 'auto', },
                             ]}
                             >
-                            {index === 0 ? <HomeOutlined />: 
-                            index === 1 ? <ChatIcon /> : 
-                            index === 2 ? < SchemaIcon/> :
+                            {
+                            index === 0 ? <ChatIcon /> : 
+                            index === 1 ? < SchemaIcon/> :
                             <DeviceHubIcon />}
                             </ListItemIcon>
                             <ListItemText
@@ -244,11 +255,13 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
         <DrawerHeader />
+        <Box>
         {
-            page === 'home'  ? <Home />  : page === 'chat' ? <Chat /> : <Workflow />
-        }
+            page === 'chat' ? <Chat /> : 
+            <Workflow />
+        }</Box>
       </Box>
     </Box>
   );
