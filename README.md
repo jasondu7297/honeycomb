@@ -2,7 +2,11 @@
 
 Our project enables __*Repeatable Workflows via Natural Language*__, automating multi-step processes with ease. It connects to a number of data sources and uses agents to take actions during execution. Workflows are saved as checkpointed graphs for reliability. RAG-powered memory preserves context for adaptive automation.
 
-## Features
+## Table of Contents
+
+TODO: toc
+
+## Features Overview
 
 ### Chat Interface with Chain of Thought & Agentic Behaviours
 
@@ -22,6 +26,10 @@ TODO: image
 
 - Docker & Docker Compose [(installable via Docker Desktop)](https://www.docker.com/products/docker-desktop/)
 - `Python >= 3.12`
+
+## Sponsor Integrations
+
+TODO: sponsor integrations
 
 ### Setup & Startup
 
