@@ -13,8 +13,15 @@ from src.agents import (
     RAG
 ) # noqa: F401
 
-class GraphBuilder(BaseModel):
-    def build(self) -> CompiledStateGraph:
+class GraphBuilder:
+    _graph: CompiledStateGraph
+
+    @classmethod
+    def get_graph(cls) -> CompiledStateGraph:
+        return cls._graph
+
+    @classmethod
+    def build(cls) -> CompiledStateGraph:
         # construct all nodes in the graph
         compiled_agents = []
         for agent_cls in AgentRegistry.get_agents():
@@ -31,4 +38,5 @@ class GraphBuilder(BaseModel):
         checkpointer = MemorySaver()
 
         # return a compiled graph with checkpointing
-        return graph.compile(checkpointer=checkpointer)
+        cls._graph = graph.compile(checkpointer=checkpointer)
+        return cls._graph

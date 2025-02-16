@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-# from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from src.memory.router import router as memory_router
-# from src.langchain_integration import get_state_history
+from src.workflows.router import router as workflows_router
 
 app = FastAPI()
 
@@ -21,6 +20,7 @@ def read_root():
     return {"message": "Hello, FastAPI!"}
 
 app.include_router(memory_router, prefix='/memory')
+app.include_router(workflows_router, prefix='/history')
 
 # apps/api/main.py (or wherever you set up FastAPI)
 from fastapi import FastAPI, Request
