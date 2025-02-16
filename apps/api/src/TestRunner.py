@@ -14,5 +14,5 @@ class TestRunner:
 if __name__ == "__main__":
     # For standalone testing:
     runner = TestRunner()
-    for output in runner.run("Who was the 10th US president?"):
+    for output in runner.run("Can you read the contents of the file Jason Du.pdf in Google Drive."):
         print(output)
