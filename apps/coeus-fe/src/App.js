@@ -16,7 +16,7 @@ function App() {
   
   const myModels = [
     { id: 1, name: 'OpenAI', imageUrl: '/icons/open_ai_icon.png' },
-    { id: 2, name: 'Gemini', imageUrl: '/icons/google_docs.png' },
+    { id: 2, name: 'Gemini', imageUrl: '/icons/gemini_icon.png' },
     { id: 3, name: 'Mistral AI', imageUrl: '/icons/mistral_ai.png' },
   ];
   
