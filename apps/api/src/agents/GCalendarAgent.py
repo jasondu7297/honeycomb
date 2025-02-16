@@ -8,7 +8,7 @@ from src.agents.Agent import Agent
 from src.agents.AgentRegistry import AgentRegistry
 from config import ProjectConf
 
-from tools.GCalendarTool import GCalendarTool
+from src.tools.GCalendarTool import GCalendarTool
 
 @AgentRegistry.register
 class GCalendarAgent(Agent):

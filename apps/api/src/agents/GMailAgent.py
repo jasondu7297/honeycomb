@@ -8,7 +8,7 @@ from src.agents.Agent import Agent
 from src.agents.AgentRegistry import AgentRegistry
 from config import ProjectConf
 
-from tools.GMailTool import GMailTool
+from src.tools.GMailTool import GMailTool
 
 @AgentRegistry.register
 class GMailAgent(Agent):
