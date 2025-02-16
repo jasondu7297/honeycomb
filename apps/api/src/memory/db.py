@@ -3,8 +3,8 @@ Handles Elasticsearch indexing, storage, and k-NN search for text embeddings.
 """
 from elasticsearch import Elasticsearch
 
-from memory.embeddings import N_DIMENSIONS, embedding_of_text
-from memory.models import Document
+from src.memory.embeddings import N_DIMENSIONS, embedding_of_text
+from src.memory.models import Document
 
 # Connect to Elasticsearch
 es = Elasticsearch("http://localhost:9200")

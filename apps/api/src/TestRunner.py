@@ -1,4 +1,4 @@
-from workflows.Graph import GraphBuilder
+from src.workflows.Graph import GraphBuilder
 
 class TestRunner:
     def build(self):
