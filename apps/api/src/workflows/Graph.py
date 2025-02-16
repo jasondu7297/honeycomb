@@ -7,8 +7,8 @@ from conf.ProjectConf import ProjectConf
 from utils.prompts import SUPERVISOR_PROMPT
 
 # Necessary for registering classes with AgentRegistry at import time
-from agents import GSearchAgent 
-from agents import RAG
+from agents import GSearchAgent   # noqa: F401
+from agents import RAG  # noqa: F401
 
 class GraphBuilder(BaseModel):
     def build(self) -> StateGraph:
