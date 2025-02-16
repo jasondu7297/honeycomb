@@ -17,10 +17,8 @@ class GSearchAgent(Agent):
     to obtain recent, relevant information from across the web based on user queries.
     """
     def build(self) -> CompiledStateGraph:
-        # Create the GoogleSearchAPIWrapper
         search = GoogleSearchAPIWrapper()
 
-        # Wrap it in a Tool
         google_search_tool = Tool(
             name="GSearchTool",
             description="A tool that interfaces with Google's Search API to fetch the latest " 
@@ -29,7 +27,6 @@ class GSearchAgent(Agent):
             func=search.run,
         )
 
-        # Create a ReAct-style agent with our search tool
         compiled_graph = create_react_agent(name='GSearchAgent', model=ProjectConf.agent_llm, tools=[google_search_tool])
 
         return compiled_graph

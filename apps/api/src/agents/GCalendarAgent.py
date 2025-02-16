@@ -6,7 +6,6 @@ from agents.Agent import Agent
 from agents.AgentRegistry import AgentRegistry
 from conf.ProjectConf import ProjectConf
 
-# Import your GCalendarTool from its module.
 from tools.GCalendarTool import GCalendarTool
 
 @AgentRegistry.register
@@ -23,9 +22,8 @@ class GCalendarAgent(Agent):
     Use this agent for tasks that involve reading, creating, or updating events in Google Calendar.
     """
     def build(self) -> CompiledStateGraph:
-        # Create an instance of the GCalendarTool.
         calendar_tool_instance = GCalendarTool(
-            client_secrets_file="/Users/sairahamuthan/coeus/client_secrets.json"  # Update with your actual path.
+            client_secrets_file = os.getenv("GSUITE_CLIENT_SECRETS")
         )
         
         def calendar_tool_func(tool_input: str) -> str:

@@ -23,16 +23,13 @@ class GDriveAgent(Agent):
       - update_sharing:<file_id>,<email>,<role> to update sharing permissions.
     """
     def build(self) -> CompiledStateGraph:
-        # Create an instance of the GoogleDriveTool.
         drive_tool_instance = GoogleDriveTool(
-            client_secrets_file="/Users/sairahamuthan/coeus/client_secrets.json"  # Update with your path.
+            client_secrets_file=os.getenv("GSUITE_CLIENT_SECRETS")
         )
         
-        # Define a simple wrapper that delegates input to the tool's _run method.
         def drive_tool_func(tool_input: str) -> str:
             return drive_tool_instance._run(tool_input)
         
-        # Wrap our drive tool function in a LangChain Tool.
         google_drive_tool = Tool(
             name="GDriveTool",
             description=(

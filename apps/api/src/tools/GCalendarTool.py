@@ -136,8 +136,7 @@ class GCalendarTool(BaseTool):
         return self._run(tool_input, **kwargs)
 
 if __name__ == "__main__":
-    CLIENT_SECRETS_FILE = "/Users/sairahamuthan/coeus/client_secrets.json"  
-    
+    CLIENT_SECRETS_FILE = os.getenv("GSUITE_CLIENT_SECRETS")
     calendar_tool = GCalendarTool(client_secrets_file=CLIENT_SECRETS_FILE)
     
     # Test list_events operation.

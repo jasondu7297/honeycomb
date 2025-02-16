@@ -22,16 +22,13 @@ class GMailAgent(Agent):
       3. send_message:<sender>,<to>,<subject>,<body> - Send an email.
     """
     def build(self) -> CompiledStateGraph:
-        # Create an instance of the GmailTool.
         gmail_tool_instance = GMailTool(
-            client_secrets_file="/Users/sairahamuthan/coeus/client_secrets.json"  # Update with your actual path.
+            client_secrets_file=os.getenv("GSUITE_CLIENT_SECRETS")
         )
         
-        # Define a simple wrapper that delegates input to the GmailTool's _run method.
         def gmail_tool_func(tool_input: str) -> str:
             return gmail_tool_instance._run(tool_input)
         
-        # Wrap the function into a LangChain Tool with a detailed description.
         gmail_tool = Tool(
             name="GMailTool",
             description=(
