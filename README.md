@@ -1,6 +1,6 @@
 # Coeus - Repeatable Workflows via Natural Language
 
-Our project enables __*Repeatable Workflows via Natural Language*__, automating multi-step processes with ease. It connects to a number of data sources and uses agents to take actions during execution. Workflows are saved as checkpointed graphs for reliability. RAG-powered memory preserves context for adaptive automation.
+Our project enables **_Repeatable Workflows via Natural Language_**, automating multi-step processes with ease. It connects to a number of data sources and uses agents to take actions during execution. Workflows are saved as checkpointed graphs for reliability. RAG-powered memory preserves context for adaptive automation.
 
 ## Table of Contents
 
@@ -51,6 +51,9 @@ All of the following commands should be run from the root `coeus/` directory.
 ```sh
 # Create a virtual environment and install Python dependencies
 ./scripts/create_python_env.sh
+
+# Activate the venv
+source .venv/bin/activate
 
 # Spin up a local ElasticSearch database
 docker compose up

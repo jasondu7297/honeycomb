@@ -43,33 +43,3 @@ async def run_test(request: Request):
             yield output
 
     return StreamingResponse(event_generator(), media_type="text/plain")
-
-
-@app.get("/get_history")
-def get_history() -> str:
-    print("Getting history...")
-    history = WorkflowHistory.get_history()
-    state_history = parse_all_snapshots(history)
-    return JSONResponse(
-        content=state_history,
-        headers={
-            "Access-Control-Allow-Origin": "http://localhost:3000",
-            "Access-Control-Allow-Credentials": "true",
-        }
-    )
-
-@app.post("/update")
-def update(checkpoint_id: int, new_prompt: str):
-    return WorkflowHistory.update(checkpoint_id, new_prompt)
-
-# # Endpoint for retrieving state history as JSON
-# @app.get("/state_history")
-# async def state_history_endpoint():
-#     state_history = parse_all_snapshots(input_string)
-#     return JSONResponse(
-#         content=state_history,
-#         headers={
-#             "Access-Control-Allow-Origin": "http://localhost:3000",
-#             "Access-Control-Allow-Credentials": "true",
-#         }
-#     )

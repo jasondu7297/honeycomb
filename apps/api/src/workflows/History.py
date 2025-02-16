@@ -1,7 +1,6 @@
 from typing import Any, Union
-from langchain_core.messages import HumanMessage
 
-from src.conf.ProjectConf import ProjectConf
+from config import ProjectConf
 from src.workflows.Graph import GraphBuilder
 
 class WorkflowHistory:
@@ -14,18 +13,12 @@ class WorkflowHistory:
         return str(list(graph.get_state_history(cls._conf)))
 
     @classmethod
-    def update(cls, checkpoint_id: int, new_prompt: str) -> Union[dict[str, Any], Any]:
+    def update(cls, checkpoint_id: str, new_prompt: str) -> Union[dict[str, Any], Any]:
         graph = GraphBuilder.get_graph()
         for state in graph.get_state_history(cls._conf):
             if state.config['configurable'] and state.config['configurable']['checkpoint_id'] == checkpoint_id:
-                state.values['messages'][-1] = HumanMessage(new_prompt) # assuming last message will be human message
-        
-        cls.replay(checkpoint_id)
+                graph.update_state(state.config, {'state': 'fork'})
 
-    def _replay(checkpoint_id: int) -> Union[dict[str, Any], Any]:
-        # set the checkpoint id to be used for replay
-        update_conf = ProjectConf.state_snapshot_config
-        update_conf['configurable']['checkpoint_id'] = checkpoint_id
+                return graph.stream({'messages': [new_prompt]}, state.config, stream_mode="values")
 
-        graph = GraphBuilder.get_graph()
-        return graph.invoke(None, config=update_conf)
+        return None # Invalid checkpoint_id, should not reach this point
