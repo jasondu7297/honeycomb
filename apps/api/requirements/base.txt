@@ -2,7 +2,7 @@ elasticsearch
 fastapi
 sentence_transformers
 uvicorn
-
+pydantic
 langgraph
 langchain_google_community
 langchain_openai

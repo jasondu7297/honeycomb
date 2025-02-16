@@ -7,7 +7,7 @@ from src.conf.ProjectConf import ProjectConf
 from src.utils.prompts import SUPERVISOR_PROMPT
 
 # Necessary for registering classes with AgentRegistry at import time
-from src.agents import GSearchAgent   # noqa: F401
+from src.agents.GSearchAgent import GSearchAgent
 from src.agents import RAG  # noqa: F401
 
 class GraphBuilder(BaseModel):
