@@ -40,9 +40,3 @@ async def run_test(request: Request):
             yield output
 
     return StreamingResponse(event_generator(), media_type="text/plain")
-
-# Endpoint for retrieving state history as JSON
-# @app.get("/state_history")
-# async def state_history_endpoint():
-#     state_history = get_state_history()
-#     return JSONResponse(content=state_history)
