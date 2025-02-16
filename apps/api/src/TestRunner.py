@@ -1,4 +1,4 @@
-from conf.ProjectConf import ProjectConf
+from config import ProjectConf
 from src.workflows.Graph import GraphBuilder
 
 class TestRunner:

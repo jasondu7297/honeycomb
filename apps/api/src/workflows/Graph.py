@@ -3,7 +3,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph.state import CompiledStateGraph
 from langgraph_supervisor import create_supervisor
 
-from conf.ProjectConf import ProjectConf
+from config import ProjectConf
 from src.agents.AgentRegistry import AgentRegistry
 from utils.prompts import SUPERVISOR_PROMPT
 

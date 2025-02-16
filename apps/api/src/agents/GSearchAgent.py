@@ -4,7 +4,7 @@ from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import Tool
 from langchain_google_community import GoogleSearchAPIWrapper
 
-from conf.ProjectConf import ProjectConf
+from config import ProjectConf
 from src.agents.Agent import Agent
 from src.agents.AgentRegistry import AgentRegistry
 

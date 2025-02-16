@@ -4,7 +4,7 @@ from langchain_core.tools import Tool
 
 from agents.Agent import Agent
 from agents.AgentRegistry import AgentRegistry
-from conf.ProjectConf import ProjectConf
+from config import ProjectConf
 
 from tools.GMailTool import GMailTool
 

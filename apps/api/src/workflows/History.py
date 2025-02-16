@@ -1,7 +1,7 @@
 from typing import Any, Union
 from langchain_core.messages import HumanMessage
 
-from conf.ProjectConf import ProjectConf
+from config import ProjectConf
 from Graph import GraphBuilder
 
 class WorkflowHistory:
