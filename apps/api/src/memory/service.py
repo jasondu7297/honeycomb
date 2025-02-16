@@ -1,6 +1,6 @@
-from src.memory.db import knn, write
-from src.memory.models import KNNResult, KNNResponse, Document
-from src.memory.embeddings import embedding_of_text
+from memory.db import knn, write
+from memory.models import KNNResult, KNNResponse, Document
+from memory.embeddings import embedding_of_text
 
 # TODO: there's probably some things to do around associating conversations with users, 
 # access control, maybe giving an ID to conversations to tie chunks together. We will probably

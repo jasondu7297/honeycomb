@@ -7,7 +7,7 @@ from agents.Agent import Agent
 from agents.AgentRegistry import AgentRegistry
 from conf.ProjectConf import ProjectConf
 
-from src.memory.service import get_knn
+from memory.service import get_knn
 
 def run_rag(query: str) -> str:
     results = get_knn(query, k=5)
@@ -30,6 +30,6 @@ class RAGAgent(Agent):
         )
 
         # Create a ReAct-style agent with our search tool
-        compiled_graph = create_react_agent(name='GSearchAgent', model=ProjectConf.agent_llm, tools=[rag_tool])
+        compiled_graph = create_react_agent(name='RAGAgent', model=ProjectConf.agent_llm, tools=[rag_tool])
 
         return compiled_graph
