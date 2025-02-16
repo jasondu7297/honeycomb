@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.memory.router import router as memory_router
 from src.workflows.router import router as workflows_router
 from src.utils.extract_state_fields import parse_all_snapshots
-from fastapi.responses import JSONResponse
 from src.workflows.History import WorkflowHistory
 
 app = FastAPI()

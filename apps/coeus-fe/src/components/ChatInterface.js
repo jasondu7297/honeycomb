@@ -104,19 +104,19 @@ const ChatInterface = () => {
   
     const handleBranch = async (e) => {
       e.preventDefault();
-      if (!editedMessage.trim()) return; // Use editedMessage here
+      if (!editedMessage.trim()) return; 
       console.log('Branching off with new message:', editedMessage);
       console.log('Checkpoint ID:', checkpointId);
       // Add the user's message to the chat
       setMessages(prev => [...prev, { sender: 'user', text: editedMessage }]);
       setLoading(true);
       const payload = {
-        checkpoint_id: checkpointId, // Replace with the actual checkpoint id (an integer)
-        new_prompt: editedMessage, // The prompt string you want to pass
+        checkpoint_id: checkpointId,
+        new_prompt: editedMessage,
       };
 
       try {
-        const response = await fetch("http://localhost:8000/update", {
+        const response = await fetch("http://localhost:8000/history/update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -435,14 +435,6 @@ const ChatInterface = () => {
         const { done, value } = await reader.read();
         if (done) break;
         result += decoder.decode(value, { stream: true });
-        // Update the last bot message with the streaming result
-        setMessages(prev => {
-          const updated = [...prev];
-          if (updated[updated.length - 1].sender === 'bot') {
-            updated[updated.length - 1] = { ...updated[updated.length - 1], text: result };
-          }
-          return updated;
-        });
       }
       const finalMessage = extractFinalMessage(result); // Your function to get the final message
       setMessages(prevMessages => {

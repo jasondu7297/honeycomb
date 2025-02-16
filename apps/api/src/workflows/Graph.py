@@ -5,7 +5,7 @@ from langgraph_supervisor import create_supervisor
 
 from config import ProjectConf
 from src.agents.AgentRegistry import AgentRegistry
-from utils.prompts import SUPERVISOR_PROMPT
+from src.utils.prompts import SUPERVISOR_PROMPT
 
 # Necessary for registering classes with AgentRegistry at import time
 from src.agents import (
@@ -14,7 +14,7 @@ from src.agents import (
 ) # noqa: F401
 
 class GraphBuilder:
-    _graph: CompiledStateGraph
+    _graph: CompiledStateGraph = None
 
     @classmethod
     def get_graph(cls) -> CompiledStateGraph:

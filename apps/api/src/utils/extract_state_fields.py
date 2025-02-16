@@ -13,10 +13,13 @@ def parse_state_snapshot(snapshot_str, messages, checkpoints):
     #    We look for the pattern: values={'messages': [ ... ]}
 
     msg_contents = collections.OrderedDict.fromkeys(re.findall(r"content='([^']+)'", snapshot_str))
+    more_msg_contents = collections.OrderedDict.fromkeys(re.findall(r"content='([^']+)'", snapshot_str))
+
     checkpoint_id = re.search(r"'checkpoint_id': '([^']+)'", snapshot_str)
     if checkpoint_id:
         checkpoints[checkpoint_id.group(1)] = True
     messages.update(msg_contents)
+    messages.update(more_msg_contents)
     checkpoints.update(checkpoints)
     print(messages)
     print("message count")
@@ -32,6 +35,7 @@ def parse_all_snapshots(input_str):
     Given the full input string containing one or more StateSnapshot objects,
     split them apart and parse each one.
     """
+    print(input_str)
     snapshots = []
     messages = collections.OrderedDict()
     checkpoints = collections.OrderedDict()

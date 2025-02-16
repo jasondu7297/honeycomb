@@ -10,7 +10,7 @@ const GraphComponent = ({ onNodeClick }) => {
 
   const fetchStateHistory = async () => {
     try {
-      const response = await fetch("http://localhost:8000/get_history");
+      const response = await fetch("http://localhost:8000/history/get");
       const data = await response.json();
       console.log("Fetched state history:", data);
       setNodes(transformStateHistoryToNodes(data));
