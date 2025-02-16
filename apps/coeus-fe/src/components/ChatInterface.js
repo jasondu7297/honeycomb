@@ -3,6 +3,7 @@ import Sidebar from './Sidebar';
 import CoeusHeader from './CoeusHeader';
 import ReactFlow, { ReactFlowProvider, applyNodeChanges, applyEdgeChanges } from 'reactflow';
 import 'reactflow/dist/style.css';
+import GraphComponent from './GraphComponent';
 
 const ChatInterface = () => {
   // Chat state
@@ -388,14 +389,6 @@ const ChatInterface = () => {
         const { done, value } = await reader.read();
         if (done) break;
         result += decoder.decode(value, { stream: true });
-        // Update the last bot message with the streaming result
-        // setMessages(prev => {
-        //   const updated = [...prev];
-        //   if (updated[updated.length - 1].sender === 'bot') {
-        //     updated[updated.length - 1] = { ...updated[updated.length - 1], text: result };
-        //   }
-        //   return updated;
-        // });
       }
       const finalMessage = extractFinalMessage(result); // Your function to get the final message
       setMessages(prevMessages => {
@@ -431,7 +424,7 @@ const ChatInterface = () => {
       <div style={sidebarWrapperStyle}>
         <Sidebar />
       </div>
-
+  
       {/* Main Content */}
       <div style={mainContainerStyle}>
         <CoeusHeader />
@@ -439,9 +432,7 @@ const ChatInterface = () => {
           <div ref={chatWindowRef} style={chatWindowStyle}>
             {messages.map((msg, idx) => (
               <div key={idx} style={messageStyle(msg.sender)}>
-                <div style={bubbleStyle(msg.sender)}>
-                  {msg.text}
-                </div>
+                <div style={bubbleStyle(msg.sender)}>{msg.text}</div>
               </div>
             ))}
             {isLoading && (
@@ -449,8 +440,22 @@ const ChatInterface = () => {
                 <div style={bubbleStyle('bot')}>Typing...</div>
               </div>
             )}
+  
+            {/* Show Visualization button only after final bot output is parsed */}
+            {!isLoading &&
+              messages.length > 0 &&
+              messages[messages.length - 1].sender === 'bot' &&
+              !messages[messages.length - 1].isStreaming &&
+              messages[messages.length - 1].text && (
+                <button
+                  onClick={() => setShowVisualization(true)}
+                  style={buttonStyle}
+                >
+                  Show Visualization
+                </button>
+              )}
           </div>
-
+  
           <form onSubmit={handleSend} style={formStyle}>
             <input
               type="text"
@@ -465,37 +470,15 @@ const ChatInterface = () => {
           </form>
         </div>
       </div>
-
+  
       {/* Visualization Modal */}
       {showVisualization && (
         <Modal onClose={() => setShowVisualization(false)}>
-          <h2 style={whiteText}>Agentic AI Workflow Visualization</h2>
-          <ReactFlowProvider>
-            <div style={{ width: '100%', height: '100%' }}>
-              <ReactFlow
-                nodes={nodes.map(node => ({
-                  ...node,
-                  position: { x: node.position.x, y: node.position.y },
-                  type: 'default',
-                }))}
-                edges={edges.map(edge => ({
-                  ...edge,
-                  markerEnd: {
-                    type: 'arrow',
-                  },
-                  type: 'smoothstep',
-                  sourceHandle: 'right',
-                  targetHandle: 'left',
-                }))}
-                nodeTypes={nodeTypes}
-                onNodeClick={onNodeClick}
-                fitView
-              />
-            </div>
-          </ReactFlowProvider>
+          <h2 style={{ color: 'white' }}>Agentic AI Workflow Visualization</h2>
+          <GraphComponent isLoading={isLoading} />
         </Modal>
       )}
-
+  
       {/* Branching Modal */}
       {selectedCheckpoint && (
         <BranchModal
