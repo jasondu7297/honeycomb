@@ -3,14 +3,14 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph.state import CompiledStateGraph
 from langgraph_supervisor import create_supervisor
 
+from conf.ProjectConf import ProjectConf
 from src.agents.AgentRegistry import AgentRegistry
-from src.conf.ProjectConf import ProjectConf
-from src.utils.prompts import SUPERVISOR_PROMPT
+from utils.prompts import SUPERVISOR_PROMPT
 
 # Necessary for registering classes with AgentRegistry at import time
 from src.agents import (
     GSearchAgent,
-    RAG
+    RAGAgent
 ) # noqa: F401
 
 class GraphBuilder:

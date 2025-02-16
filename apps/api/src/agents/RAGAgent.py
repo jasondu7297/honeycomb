@@ -3,9 +3,9 @@ from langgraph.prebuilt import create_react_agent
 
 from langchain_core.tools import Tool
 
+from conf.ProjectConf import ProjectConf
 from src.agents.Agent import Agent
 from src.agents.AgentRegistry import AgentRegistry
-from src.conf.ProjectConf import ProjectConf
 
 from src.memory.service import get_knn
 
