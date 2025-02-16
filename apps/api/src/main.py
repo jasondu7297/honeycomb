@@ -1,6 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from src.memory.router import router as memory_router
+from apps.api.src.runner import Runner
 from src.workflows.router import router as workflows_router
 from src.utils.extract_state_fields import parse_all_snapshots
 from src.workflows.History import WorkflowHistory
@@ -24,20 +26,15 @@ def read_root():
 app.include_router(memory_router, prefix='/memory')
 app.include_router(workflows_router, prefix='/history')
 
-# apps/api/main.py (or wherever you set up FastAPI)
-from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse
-from src.TestRunner import TestRunner
-
 @app.post("/run")
-async def run_test(request: Request):
+async def run(request: Request):
     # Parse the JSON body for the user message
     data = await request.json()
     user_input = data.get("message", "Who was the 10th US president?")
 
     # Create a generator that yields output from TestRunner.run()
     def event_generator():
-        runner = TestRunner()
+        runner = Runner()
         for output in runner.run(user_input):
             yield output
 

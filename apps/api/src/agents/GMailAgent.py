@@ -1,9 +1,11 @@
+import os
+
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import Tool
 
-from agents.Agent import Agent
-from agents.AgentRegistry import AgentRegistry
+from src.agents.Agent import Agent
+from src.agents.AgentRegistry import AgentRegistry
 from config import ProjectConf
 
 from tools.GMailTool import GMailTool
