@@ -389,13 +389,13 @@ const ChatInterface = () => {
         if (done) break;
         result += decoder.decode(value, { stream: true });
         // Update the last bot message with the streaming result
-        setMessages(prev => {
-          const updated = [...prev];
-          if (updated[updated.length - 1].sender === 'bot') {
-            updated[updated.length - 1] = { ...updated[updated.length - 1], text: result };
-          }
-          return updated;
-        });
+        // setMessages(prev => {
+        //   const updated = [...prev];
+        //   if (updated[updated.length - 1].sender === 'bot') {
+        //     updated[updated.length - 1] = { ...updated[updated.length - 1], text: result };
+        //   }
+        //   return updated;
+        // });
       }
       const finalMessage = extractFinalMessage(result); // Your function to get the final message
       setMessages(prevMessages => {
