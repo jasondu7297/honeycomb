@@ -9,7 +9,7 @@ import React from 'react';
   };
 
 const CoeusHeader = () => {
-    return <h1 style={titleStyle}>Coeus</h1>
+    return <h1 style={titleStyle}>Honeycomb</h1>
 }
 
 export default CoeusHeader;

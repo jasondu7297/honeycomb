@@ -1,41 +1,10 @@
-# Coeus - Repeatable Workflows via Natural Language
+# Honeycomb - Repeatable Workflows via Natural Language
+
+[Devpost](https://devpost.com/software/coeus-pfvn7c)
 
 Our project enables **_Repeatable Workflows via Natural Language_**, automating multi-step processes with ease. It connects to a number of data sources and uses agents to take actions during execution. Workflows are saved as checkpointed graphs for reliability. RAG-powered memory preserves context for adaptive automation.
 
-## Table of Contents
-
-1. [Features Overview](#features-overview)
-2. [Sponsor Integrations](#sponsor-integrations)
-    - [LangChain](#langchain)
-    - [ElasticSearch](#elasticsearch)
-    - [Context](#context)
-3. [Running the Project](#running-the-project)
-
-## Features Overview
-
-### Chat Interface with Chain of Thought & Agentic Behaviours
-
-TODO: image
-
-### Workflows as Checkpointed Graphs
-
-TODO: image
-
-### Embedding Visualization
-
-![Embedding Visualization](assets/embedding-visualization.png)
-
-## Sponsor Integrations
-
-TODO: sponsor integrations
-
-### LangChain
-
-### ElasticSearch
-
-### Context
-
-
+Refer to the [Devpost](https://devpost.com/software/coeus-pfvn7c) for more details.
 
 ## Running the Project
 
@@ -46,7 +15,7 @@ TODO: sponsor integrations
 
 ### Setup & Startup
 
-All of the following commands should be run from the root `coeus/` directory.
+All of the following commands should be run from the root `honeycomb/` directory.
 
 ```sh
 # Create a virtual environment and install Python dependencies
@@ -60,7 +29,13 @@ docker compose up
 
 # Start the API
 ./scripts/start_api.sh
+```
 
-# Start the App
-TODO:
+### Starting the web app
+
+From `honeycomb/apps/coeus-fe/`
+
+```sh
+npm i
+npm run start
 ```

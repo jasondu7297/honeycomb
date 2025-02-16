@@ -527,8 +527,7 @@ const ChatInterface = () => {
   
       {/* Branching Modal */}
       {selectedCheckpoint && (
-        <BranchModal
-          checkpoint={selectedCheckpoint}
+        <BranchModal onClose={() => setSelectedCheckpoint(null)} checkpoint={selectedCheckpoint}
         />
       )}
     </div>
