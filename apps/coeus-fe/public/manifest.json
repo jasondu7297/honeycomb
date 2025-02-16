@@ -1,9 +1,9 @@
 {
-  "short_name": "Polus",
-  "name": "Polus",
+  "short_name": "honeycomb",
+  "name": "honeycomb",
   "icons": [
     {
-      "src": "polus_logo.png",
+      "src": "honeycomb_logo.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/png"
     }
