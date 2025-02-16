@@ -9,6 +9,9 @@ from src.utils.prompts import SUPERVISOR_PROMPT
 
 # Necessary for registering classes with AgentRegistry at import time
 from src.agents import (
+    GCalendarAgent,
+    GDriveAgent,
+    GMailAgent,
     GSearchAgent,
     RAGAgent
 ) # noqa: F401
