@@ -72,11 +72,11 @@ const Sidebar = () => {
     <div style={styles.sidebar}>
       <div style={styles.profileBox}>
           <img
-            src="/icons/cat_icon.png"
+            src="/alex_cropped_headshot.png"
             alt="User"
             style={styles.profileImage}
           />
-        <h3 style={styles.whiteText}>Good Kitty-Kitty</h3>
+        <h3 style={styles.whiteText}>Alexander Cholmsky</h3>
       </div>
       {/* <div style={styles.searchBox}>
         <input style={styles.searchInput} type="text" placeholder="Search" />
