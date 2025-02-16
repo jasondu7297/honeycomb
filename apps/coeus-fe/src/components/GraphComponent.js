@@ -4,7 +4,7 @@ import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { transformStateHistoryToNodes, transformStateHistoryToEdges } from '../utils/transformStateHistory';
 
-const GraphComponent = ({ onNodeClick }) => {
+const GraphComponent = ({ onNodeClick , selectedCheckpoint}) => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
 
@@ -13,7 +13,7 @@ const GraphComponent = ({ onNodeClick }) => {
       const response = await fetch("http://localhost:8000/history/get");
       const data = await response.json();
       console.log("Fetched state history:", data);
-      setNodes(transformStateHistoryToNodes(data));
+      setNodes(transformStateHistoryToNodes(data, selectedCheckpoint));
       setEdges(transformStateHistoryToEdges(data));
     } catch (error) {
       console.error("Error fetching state history:", error);

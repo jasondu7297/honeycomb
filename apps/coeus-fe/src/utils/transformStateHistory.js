@@ -3,8 +3,9 @@
 // Transform each state item into a node.
 // Customize the mapping according to your state data structure.
 
-export const transformStateHistoryToNodes = (stateHistory) => {
+export const transformStateHistoryToNodes = (stateHistory, selectedCheckpoint) => {
     console.log('State history:', stateHistory);
+    console.log('Selected checkpoint:', selectedCheckpoint);
     return stateHistory.map((state, index) => ({
       id: state.checkpoint_id,
       data: { 

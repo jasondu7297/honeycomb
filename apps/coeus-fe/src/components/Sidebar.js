@@ -84,6 +84,9 @@ const Sidebar = () => {
       <button style={styles.exploreButton} onClick={handleToggleChat}>
         {buttonText}
       </button>
+      <button style={styles.exploreButton} onClick={() => window.open("https://poloclub.github.io/wizmap/?dataURL=http%3A%2F%2F127.0.0.1%3A5500%2Fdata.ndjson&gridURL=http%3A%2F%2F127.0.0.1%3A5500%2Fgrid.json", "_blank")}>
+        Explore Embeddings
+      </button>
     </div>
   );
 };
