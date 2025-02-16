@@ -4,7 +4,12 @@ Our project enables __*Repeatable Workflows via Natural Language*__, automating 
 
 ## Table of Contents
 
-TODO: toc
+1. [Features Overview](#features-overview)
+2. [Sponsor Integrations](#sponsor-integrations)
+    - [LangChain](#langchain)
+    - [ElasticSearch](#elasticsearch)
+    - [Context](#context)
+3. [Running the Project](#running-the-project)
 
 ## Features Overview
 
@@ -20,16 +25,24 @@ TODO: image
 
 ![Embedding Visualization](assets/embedding-visualization.png)
 
+## Sponsor Integrations
+
+TODO: sponsor integrations
+
+### LangChain
+
+### ElasticSearch
+
+### Context
+
+
+
 ## Running the Project
 
 ### Requirements
 
 - Docker & Docker Compose [(installable via Docker Desktop)](https://www.docker.com/products/docker-desktop/)
 - `Python >= 3.12`
-
-## Sponsor Integrations
-
-TODO: sponsor integrations
 
 ### Setup & Startup
 
