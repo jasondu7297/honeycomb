@@ -1,11 +1,17 @@
-from workflows.Graph import GraphBuilder
+# apps/api/src/TestRunner.py
+from src.workflows.Graph import GraphBuilder
 
 class TestRunner:
-    def build(self):
+    def run(self, user_message: str):
         graph_builder = GraphBuilder().build()
+        # Stream the output by yielding each chunk instead of printing
+        for s in graph_builder.compile().stream(
+            {"messages": [("user", user_message)]}, subgraphs=True
+        ):
+            yield f"{s}\n----\n"  # This yields a string.
 
-        for s in graph_builder.compile().stream({"messages": [("user", "Who was the 10th US president?")]}, subgraphs=True):
-            print(s)
-            print("----")
-
-runner = TestRunner().build()
+if __name__ == "__main__":
+    # For standalone testing:
+    runner = TestRunner()
+    for output in runner.run("Who was the 10th US president?"):
+        print(output)

@@ -2,12 +2,12 @@ from pydantic import BaseModel
 from langgraph.graph import StateGraph
 from langgraph_supervisor import create_supervisor
 
-from agents.AgentRegistry import AgentRegistry
-from conf.ProjectConf import ProjectConf
-from utils.prompts import SUPERVISOR_PROMPT
+from src.agents.AgentRegistry import AgentRegistry
+from src.conf.ProjectConf import ProjectConf
+from src.utils.prompts import SUPERVISOR_PROMPT
 
 # Necessary for registering classes with AgentRegistry at import time
-from agents.GSearchAgent import GSearchAgent
+from src.agents.GSearchAgent import GSearchAgent
 
 class GraphBuilder(BaseModel):
     def build(self) -> StateGraph:
